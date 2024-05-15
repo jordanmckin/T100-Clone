@@ -1,0 +1,47 @@
+.NODE{
+    width: 20vw;
+    height: 27vh;
+    border: 2px solid;
+    border-color: rgb(140, 140, 140);
+    background-color:  rgb(36, 35, 35);
+    margin: 1vw;
+}
+
+.NODE_INFO{
+    position: relative;
+    float: right;
+    margin-top: .2vh;
+    margin-right: 1vw;
+}
+
+.background{
+    background-color: rgb(36, 35, 35);
+}
+.NODE_TEXT{
+    margin: 4px;
+    font-weight: bold;
+    font-family: monospace;
+    color: rgb(200, 200, 200);
+    font-size: 1.0vw;
+}
+.NODE_TEXT_LABEL{
+    color: rgb(140, 140, 140);
+    font-family:monospace;
+    font-size: .9vw;
+    font-weight: bolder;
+    text-decoration-line:underline;
+}
+.instruction_input{
+    font-size: 1.25vw;
+    resize: none;
+    height: 25vh;
+    width: 14vw;
+    margin: 6px;
+    font-family:monospace;
+    background-color: rgb(36, 35, 35);
+    color: rgb(200, 200, 200);
+}
+
+#NODE_TABLE{
+    margin-left: 15vw;
+}
