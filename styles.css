@@ -13,6 +13,11 @@
     margin-top: .2vh;
     margin-right: 1vw;
 }
+.UI_BUTTON{
+    padding: 32px 32px;
+    position: absolute;
+
+}
 
 .background{
     background-color: rgb(36, 35, 35);
@@ -41,7 +46,38 @@
     background-color: rgb(36, 35, 35);
     color: rgb(200, 200, 200);
 }
-
+.arrow-up {
+    width: 0px;
+    height: 0px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid black; /* Adjust thickness and color as needed */
+}
+.arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 20px solid black; /* Adjust thickness and color as needed */
+}
+.arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 20px solid black; /* Adjust thickness and color as needed */
+}
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid black; /* Adjust thickness and color as needed */
+}
 #NODE_TABLE{
     margin-left: 15vw;
+}
+#STEP_BUTTON{
+    margin-top: 80vh;
+    margin-left: 1vw;
 }
