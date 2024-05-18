@@ -1,6 +1,6 @@
-//special search for label, <>, ! & comments 
 const VALID_INSTRUCTIONS = new Set([
     "#",
+    ":",
     "NIL",
     "MOV",
     "NOP",
@@ -14,10 +14,25 @@ const VALID_INSTRUCTIONS = new Set([
     "JNZ",
     "JGZ",
     "JLZ",
-    "JRO"
+    "JRO",
+    "!" //BREAKPOINT
 ]);
+const VALID_DIR = new Set([
+    "ACC",
+    "BAK",
+    "NIL",
+    "LEFT",
+    "RIGHT",
+    "UP",
+    "DOWN",
+    "ANY",
+    "LAST"
+]);
+
 const node_count = 9;
 let graph_connections = null;
+const current_nodes = [];
+
 const LEVEL_ONE_NODES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_CONNECTIONS = [
     [1, 2],
@@ -51,7 +66,7 @@ const LEVEL_ONE_CONNECTIONS = [
     [9, 8],
     [9, 333] //OUTPUT PORT
 ];
-const current_nodes = [];
+
 
 
 
@@ -115,25 +130,36 @@ class TNODE {
 
 function reset_display() {
     for (let i = 0; i < current_nodes.length; i++) {
+        current_nodes[i].ACC = 0;
+        current_nodes[i].BAK = 0;
+        current_nodes[i].current_instruction_line = -1;
         accv = "NODE" + current_nodes[i].name + "_ACC_VALUE";
         document.getElementById(accv).innerHTML = "0";
         bakv = "NODE" + current_nodes[i].name + "_BAK_VALUE";
         document.getElementById(bakv).innerHTML = "0";
-        current_nodes[i].current_instruction_line = -1;
     }
     clear_instruction_colors();
+}
+
+function update_display() {
+    for (let i = 0; i < current_nodes.length; i++) {
+        accv = "NODE" + current_nodes[i].name + "_ACC_VALUE";
+        document.getElementById(accv).innerHTML = current_nodes[i].ACC;
+        bakv = "NODE" + current_nodes[i].name + "_BAK_VALUE";
+        document.getElementById(bakv).innerHTML = current_nodes[i].BAK;
+    }
 }
 
 function clear_instruction_colors(n = -1) {
     if (n == -1) {
         for (let i = 0; i < current_nodes.length; i++) {
-            for (let k = 0; k < 14; k++) {
+            for (let k = 0; k <= 14; k++) {
                 const ln = "NODE" + current_nodes[i].name + "_INSTRUCTION" + k + "_CODE_LINE";
-                document.getElementById(ln).style.backgroundColor= 'rgb(36, 35, 35)';
+                document.getElementById(ln).style.backgroundColor = 'rgb(36, 35, 35)';
             }
         }
     } else {
-        for (let k = 0; k < 14; k++) {
+        for (let k = 0; k <= 14; k++) {
             const ln = "NODE" + n + "_INSTRUCTION" + k + "_CODE_LINE";
             document.getElementById(ln).style.backgroundColor = 'rgb(36, 35, 35)';
         }
@@ -142,11 +168,12 @@ function clear_instruction_colors(n = -1) {
 
 function clear_instruction_data() {
     for (let i = 0; i < current_nodes.length; i++) {
-        for (let k = 0; k < 14; k++) {
+        for (let k = 0; k <= 14; k++) {
             const ln = "NODE" + current_nodes[i].name + "_INSTRUCTION" + k + "_CODE_LINE";
             document.getElementById(ln).innerText = "";
         }
     }
+    clear_instruction_colors();
 }
 
 function add_node_connections() {
@@ -240,6 +267,7 @@ function find_instruction(node_name) {
     in_node.current_instruction_line = in_node.current_instruction_line + 1;
 
     let found_instruction = "";
+    let found_instruction_line = "";
     let starting_line = in_node.current_instruction_line - 1;
 
     for (i = 0; i < 15; i++) {
@@ -253,9 +281,27 @@ function find_instruction(node_name) {
         const text = line.innerText.trim().toUpperCase();
         const words = text.split(/\s+/);
         for (let word of words) {
-            if (VALID_INSTRUCTIONS.has(word)) {
+            //Check first char for breakpoint, comment ! #
+            //Check first char for label : 
+            if (word[0] == "!") {
+                found_instruction = "!";
+                found_instruction_line = text;
+                //console.log("HAS BREAKPOINT-!", word)
+                break;
+            } else if (word[0] == "#") {
+                found_instruction = "#";
+                found_instruction_line = text;
+                //console.log("HAS COMMENT - #", word)
+                break;
+            } else if (word[word.length - 1] == ":") {
+                found_instruction = ":";
+                found_instruction_line = text;
+                //console.log("HAS LABEL-:", word)
+                break;
+            } else if (VALID_INSTRUCTIONS.has(word)) {
                 found_instruction = word;
-                console.log("HAS CODE-", word)
+                found_instruction_line = text;
+                //console.log("HAS CODE-", word)
                 break;
             }
         }
@@ -273,12 +319,132 @@ function find_instruction(node_name) {
         document.getElementById(ln).style.backgroundColor = 'grey';
     }
 
+    let ff = []
+    ff.push(found_instruction);
+    ff.push(found_instruction_line);
+    return ff;
+}
 
-    return found_instruction;
+function inst_label() {
+    return null;
+}
+
+function inst_breakpoint() {
+    //WRITE BREAKPOINT PAUSE
+    return null;
+}
+
+function inst_comment() {
+    return null;
+}
+
+function inst_nil() {
+    return null;
+}
+
+function inst_add(node_name, inst) {
+    //get the current node
+    const in_node = current_nodes.find(({
+        name
+    }) => name === node_name);
+
+    //get the source
+    const src = find_src(inst[1], 1);
+    if (src[0] == "NULL") {
+        return;
+    } else if (src[0] == "NUMBER") {
+        in_node.ACC = in_node.ACC + Number(src[1]);
+        if (in_node.ACC > 999) {
+            in_node.ACC = 999;
+        }
+        return;
+    } else if (src[0] == "DIR") {
+        return;
+    }
+}
+
+function inst_swp(node_name) {
+    //get the current node
+    const in_node = current_nodes.find(({
+        name
+    }) => name === node_name);
+    //process the instruction
+    let bak = in_node.BAK;
+    in_node.BAK = in_node.ACC;
+    in_node.ACC = bak;
+}
+
+function inst_sav(node_name) {
+    //get the current node
+    const in_node = current_nodes.find(({
+        name
+    }) => name === node_name);
+    //process the current instruction
+    in_node.BAK = in_node.ACC;
+}
+
+function isNumber(word) {
+    return !isNaN(word);
+}
+
+
+function find_src(inst_line, target_word = 1) {
+    let r = []
+    const words = inst_line.split(/\s+/);
+    const word = words[target_word]
+    if (isNumber(word)) {
+        r.push("NUMBER")
+        r.push(word);
+        return r;
+    }
+    //check if valid direction/source/destination
+    else if (VALID_DIR.has(word)) {
+        r.push("DIR")
+        r.push(word);
+        return r;
+    } else {
+        r.push("NULL");
+        r.push(word);
+        return r;
+    }
 }
 
 function process_instruction(node_name, inst) {
 
+    /*
+    "#",
+    ":", // MAKE LABEL SEARCHER 
+    "MOV", SRC DST
+    "NOP",  ADD 0
+    "SWP", SWAP ACC & BAK VALUES
+    "SAV", ACC -> BAK
+    "ADD", ADD SRC
+    "SUB", SUB SRC
+    "NEG", ACC Negative
+    "JMP", SRC
+    "JEZ", JEZ SRC(LABEL) IF acc = 0
+    "JNZ",
+    "JGZ",
+    "JLZ",
+    "JRO",
+    "!" //BREAKPOINT  MAKE SEARCHER
+    */
+
+    if (inst[0] == "#") {
+        inst_comment();
+    } else if (inst[0] == ":") {
+        inst_label();
+    } else if (inst[0] == "!") {
+        inst_breakpoint();
+    } else if (inst[0] == "SWP") {
+        inst_swp(node_name);
+    } else if (inst[0] == "SAV") {
+        inst_sav(node_name);
+    } else if (inst[0] == "ADD") {
+        inst_add(node_name, inst);
+    }
+
+    return null;
 }
 
 //make a function that runs all the nodes
@@ -286,10 +452,13 @@ function btn_step() {
     for (let i = 0; i < current_nodes.length; i++) {
         //READ CURRENT INSTRUCTION
         let cur_instruction = find_instruction(current_nodes[i].name);
-        if (cur_instruction != "") {
-            process_instruction(cur_instruction[i].name, cur_instruction)
+        if (cur_instruction[0] != "") {
+            process_instruction(current_nodes[i].name, cur_instruction)
         }
     }
+
+    //update the html to reflect new node data:
+    update_display();
 }
 
 function btn_stop() {
