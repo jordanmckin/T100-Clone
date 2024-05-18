@@ -5,6 +5,8 @@
     border-color: rgb(140, 140, 140);
     background-color:  rgb(36, 35, 35);
     margin: 1vw;
+    display: flex;
+    flex-direction: row;
 }
 
 .NODE_INFO{
@@ -12,6 +14,11 @@
     float: right;
     margin-top: .2vh;
     margin-right: 1vw;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    border: 1px solid white;
+    width: 50px;
 }
 .UI_BUTTON{
     padding: 32px 32px;
@@ -74,10 +81,37 @@
     border-right: 10px solid transparent;
     border-top: 20px solid black; /* Adjust thickness and color as needed */
 }
+.INSTRUCTION_HOLDER{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-top: 1vh;
+    margin-bottom: .1vh;
+}
+.INSTRUCTION_CODE_LINE{
+    /* Preserve line breaks */
+    width: 70%;
+    height: 1.5VH;
+    margin-left: 2.5vw;
+    min-height: 1.0em; /* Minimum height to show empty lines */
+    cursor: text; 
+    font-size: 1.0vw;
+    color: rgb(200, 200, 200);
+    border: 1px solid  rgb(140, 140, 140);
+    text-transform: uppercase;
+    font-family: monospace;
+}
 #NODE_TABLE{
     margin-left: 15vw;
 }
 #STEP_BUTTON{
     margin-top: 80vh;
-    margin-left: 1vw;
+    margin-left: .2vw;
+}
+#STOP_BUTTON{
+    margin-top: 80vh;
+    margin-left: 8vw; 
+}
+#CLEAR_BUTTON{
+    background-color: rgb(152, 50, 50);
 }

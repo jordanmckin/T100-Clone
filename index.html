@@ -8,13 +8,45 @@
 </head>
 
 <body class="background" onload="start_up()">
-    <button class="UI_BUTTON" id="STEP_BUTTON" onclick="step_function()">STEP</button>
+    <button class="UI_BUTTON" id="STEP_BUTTON" onclick="btn_step()">STEP</button>
+    <button class="UI_BUTTON" id="STOP_BUTTON" onclick="btn_stop()">STOP</button>
+    <button class="UI_BUTTON" id="CLEAR_BUTTON" onclick="clear_instruction_data()">CLEAR</button>
     <table id="NODE_TABLE">
         <tr>
             <td>
                 <div class="NODE" id="NODE1">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input1" rows="15"
-                        cols="30">MOV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE1_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL" ">ACC</p>
                                 <p class=" NODE_TEXT" id="NODE1_ACC_VALUE">00</p>
@@ -31,8 +63,38 @@
             </td>
             <td>
                 <div class="NODE" id="NODE2">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input2" rows="15"
-                        cols="30">MOV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE2_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL">ACC</p>
                         <p class=" NODE_TEXT" id="NODE2_ACC_VALUE">00</p>
@@ -49,8 +111,38 @@
             </td>
             <td>
                 <div class="NODE" id="NODE3">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input3" rows="15"
-                        cols="30">MOV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE3_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL">ACC</p>
                         <p class=" NODE_TEXT" id="NODE3_ACC_VALUE">00</p>
@@ -69,8 +161,38 @@
         <tr>
             <td>
                 <div class="NODE" id="NODE4">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input4" rows="15"
-                        cols="30">MfdV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE4_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL">ACC</p>
                         <p class=" NODE_TEXT" id="NODE4_ACC_VALUE">00</p>
@@ -87,8 +209,38 @@
             </td>
             <td>
                 <div class="NODE" id="NODE5">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input5" rows="15"
-                        cols="30">MOV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE5_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL">ACC</p>
                         <p class=" NODE_TEXT" id="NODE5_ACC_VALUE">00</p>
@@ -105,8 +257,38 @@
             </td>
             <td>
                 <div class="NODE" id="NODE6">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input6" rows="15"
-                        cols="30">MOV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE6_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL">ACC</p>
                         <p class=" NODE_TEXT" id="NODE6_ACC_VALUE">00</p>
@@ -125,8 +307,38 @@
         <tr>
             <td>
                 <div class="NODE" id="NODE7">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input7" rows="15"
-                        cols="30">MOV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE7_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL">ACC</p>
                         <p class=" NODE_TEXT" id="NODE7_ACC_VALUE">00</p>
@@ -143,8 +355,38 @@
             </td>
             <td>
                 <div class="NODE" id="NODE8">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input8" rows="15"
-                        cols="30">MOV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE8_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL">ACC</p>
                         <p class=" NODE_TEXT" id="NODE8_ACC_VALUE">00</p>
@@ -161,8 +403,38 @@
             </td>
             <td>
                 <div class="NODE" id="NODE9">
-                    <textarea class="instruction_input" name="instruction_input1" id="instruction_input9" rows="15"
-                        cols="30">MOV</textarea>
+                    <div class="INSTRUCTION_HOLDER">
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION0_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION1_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION2_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION3_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION4_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION5_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION6_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION7_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION8_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION9_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION10_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION11_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION12_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION13_CODE_LINE" contenteditable="true">
+                        </div>
+                        <div class="INSTRUCTION_CODE_LINE" id="NODE9_INSTRUCTION14_CODE_LINE" contenteditable="true">
+                        </div>
+                    </div>
                     <div class="NODE_INFO">
                         <p class="NODE_TEXT NODE_TEXT_LABEL">ACC</p>
                         <p class=" NODE_TEXT" id="NODE9_ACC_VALUE">00</p>
@@ -191,7 +463,7 @@
     <div id="4,1" class="arrow-up" style="position:absolute; left:28vw; top:30.5vh;"></div>
 
 
-<!--     [1, 2],
+    <!--     [1, 2],
     [1, 4],
     [1, 11], //INPUT_PORT
     [2, 1],
