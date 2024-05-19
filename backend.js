@@ -18,56 +18,59 @@ const VALID_INSTRUCTIONS = new Set([
     "!" //BREAKPOINT
 ]);
 const VALID_DIR = new Set([
-    "ACC",
-    "BAK",
     "NIL",
     "LEFT",
     "RIGHT",
     "UP",
     "DOWN",
-    "ANY",
-    "LAST"
+    "ANY"
+]);
+const VALID_INTERNAL_DIR = new Set([
+    "ACC"
 ]);
 
 const node_count = 9;
 let graph_connections = null;
 const current_nodes = [];
+let current_connection_port_data = []; //[from, to, direction, data]
 
 const LEVEL_ONE_NODES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_CONNECTIONS = [
-    [1, 2],
-    [1, 4],
-    [1, 11], //INPUT_PORT
-    [2, 1],
-    [2, 3],
-    [2, 5],
-    [2, 22], //INPUT_PORT
-    [3, 2],
-    [3, 6],
-    [3, 33], //INPUT_PORT
-    [4, 1],
-    [4, 7],
-    [4, 5],
-    [5, 2],
-    [5, 4],
-    [5, 6],
-    [5, 8],
-    [6, 3],
-    [6, 5],
-    [6, 9],
-    [7, 4],
-    [7, 8],
-    [7, 111], //OUTPUT PORT
-    [8, 5],
-    [8, 7],
-    [8, 9],
-    [8, 222], //OUTPUT PORT
-    [9, 6],
-    [9, 8],
-    [9, 333] //OUTPUT PORT
+    [1, 2, 'RIGHT'],
+    [1, 4, 'DOWN'],
+    [11, 1, 'DOWN'], //INPUT_PORT
+    [2, 1, 'LEFT'],
+    [2, 3, 'RIGHT'],
+    [2, 5, 'DOWN'],
+    [22, 2, 'DOWN'], //INPUT_PORT
+    [3, 2, 'LEFT'],
+    [3, 6, 'DOWN'],
+    [33, 3, 'DOWN'], //INPUT_PORT
+    [4, 1, 'UP'],
+    [4, 7, 'DOWN'],
+    [4, 5, 'RIGHT'],
+    [5, 2, 'UP'],
+    [5, 4, 'LEFT'],
+    [5, 6, 'RIGHT'],
+    [5, 8, 'DOWN'],
+    [6, 3, 'UP'],
+    [6, 5, 'LEFT'],
+    [6, 9, 'DOWN'],
+    [7, 4, 'UP'],
+    [7, 8, 'RIGHT'],
+    [7, 111, 'DOWN'], //OUTPUT PORT
+    [8, 5, 'UP'],
+    [8, 7, 'LEFT'],
+    [8, 9, 'RIGHT'],
+    [8, 222, 'DOWN'], //OUTPUT PORT
+    [9, 6, 'UP'],
+    [9, 8, 'LEFT'],
+    [9, 333, 'DOWN'] //OUTPUT PORT
 ];
 
-
+//list containing data waiting at valid connection
+//cannot add connection if data is waiting
+//instruction is set back
 
 
 //Adjacency list directed
@@ -124,6 +127,8 @@ class TNODE {
         this.LAST = "N/A";
         this.MODE = "IDLE";
         this.IDLE = "0%";
+        this.hang_send_state = false;
+        this.hang_receive_state = false;
         this.current_instruction_line = -1;
     }
 }
@@ -253,6 +258,30 @@ function placeCaretAtEnd(el) {
     }
 }
 
+
+function node_send_hang_state_check(node_name) {
+    const in_node = current_nodes.find(({
+        name
+    }) => name === node_name);
+
+    if (current_connection_port_data.length > 0) {
+        for (let i = 0; i < current_connection_port_data.length; i++) {
+            const [from, to, direction, ddata] = current_connection_port_data[i];
+            if (from == node_name) {
+                //still in hang send state
+                return true;
+            }
+        }
+
+    } else {
+        //no longer in hang state
+        in_node.hang_send_state = false;
+        return false;
+    }
+    in_node.hang_send_state = false;
+    return false;
+}
+
 function find_instruction(node_name) {
     const in_node = current_nodes.find(({
         name
@@ -260,11 +289,12 @@ function find_instruction(node_name) {
 
     let ln;
 
-
     //change the color back to default for our current line
     clear_instruction_colors(in_node.name);
 
-    in_node.current_instruction_line = in_node.current_instruction_line + 1;
+    if (in_node.hang_receive_state == false) {
+        in_node.current_instruction_line = in_node.current_instruction_line + 1;
+    }
 
     let found_instruction = "";
     let found_instruction_line = "";
@@ -383,10 +413,162 @@ function inst_sav(node_name) {
     in_node.BAK = in_node.ACC;
 }
 
+function send_data_to_connection_port(src, dst, ddata) {
+
+    return false;
+}
+
+function get_data_to_receive(src, ddirection) {
+    let dur;
+    let flip_receive;
+    let d = null;
+    if (ddirection == "LEFT") {
+        dur = "RIGHT";
+    } else if (ddirection == "RIGHT") {
+        dur = "LEFT";
+    } else if (ddirection == "UP") {
+        dur = "DOWN";
+    } else if (ddirection == "DOWN") {
+        dur = "UP";
+    }
+    LEVEL_ONE_CONNECTIONS.forEach(connection => {
+        const [from, to, direction] = connection;
+        if (from == src && ddirection == direction) {
+            flip_receive = [to, from, dur];
+        }
+    });
+
+    if (current_connection_port_data.length > 0) {
+        for (let i = 0; i < current_connection_port_data.length; i++) {
+            const [from, to, direction, ddata] = current_connection_port_data[i];
+            if (flip_receive[0] == from && flip_receive[1] == to && flip_receive[2] == direction) {
+                d = ddata;
+                // Remove the found entry
+                current_connection_port_data.splice(i, 1);
+                return d; // Return the data after removing the entry
+            }
+        }
+    } else {
+        d = null;
+    }
+    return d;
+}
+
+function send_data_from_connection_port(node_id, ddirection, ddata) {
+    //send the data from this node to the list AND put the node in a HANG STATE
+    LEVEL_ONE_CONNECTIONS.forEach(connection => {
+        const [from, to, direction] = connection;
+        if (from == node_id && ddirection == direction) {
+
+            //push the data to current connection port data
+            //put the node in  hang state
+            current_connection_port_data.push([node_id, to, ddirection, ddata]);
+            const in_node = current_nodes.find(({
+                name
+            }) => name === node_id);
+            in_node.hang_send_state = true;
+        }
+    });
+    return;
+}
+
+function inst_mov(node_name, inst) {
+    //get the current node
+    const in_node = current_nodes.find(({
+        name
+    }) => name === node_name);
+
+
+    //get the source
+    const src = find_src(inst[1], 1);
+    const dst = find_dst(inst[1], 2);
+
+
+    if (src[0] == "NULL") {
+        return;
+    } else if (src[0] == "NUMBER") {
+        if (dst[0] == "NULL") {
+            return;
+        } else if (dst[0] == "DIR") {
+            //MOV 5 RIGHT
+            if (confirm_node_connection(node_name, dst[1])) {
+                //confirm that their is data to pickup IF there is no data then hang for data
+                //send the data for pickup, check on next iteration if data has been picked up else send again.
+                // move the received data that is in D
+                send_data_from_connection_port(node_name, dst[1], src[1]);
+                in_node.hang_send_state = true;
+                return;
+            } else {
+                //there is no data waiting to be received, put the node in a hang state
+                console.log("NOT VALID MOV LOCATION FOR NUMBER");
+            }
+        }
+        else if (dst[0] == "ACC"){
+            //MOV 5 ACC
+            in_node.ACC = Number(src[1]);
+            return;
+        }
+        return;
+    } else if (src[0] == "ACC") {
+        return;
+    } else if (src[0] == "DIR") {
+        if (dst[0] == "NULL") {
+            return;
+        } else if (dst[0] == "NUMBER") {
+            return;
+        } else if (dst[0] == "ACC") {
+            //MOV LEFT ACC
+            if (dst[0] == "NULL") {
+                return;
+            } else if (confirm_node_connection(node_name, src[1])) {
+                let d = get_data_to_receive(node_name, src[1]);
+                if (d != null) {
+                    in_node.ACC = d;
+                    in_node.hang_receive_state = false;
+                    return;
+                } else {
+                    //PUT NODE IN HANG STATE
+                    in_node.hang_receive_state = true;
+                    return;
+                }
+            }
+            return;
+        } else if (dst[0] == "DIR") {
+            //MOV LEFT RIGHT
+            if (confirm_node_connection(node_name, dst[1]) == true) {
+                if (confirm_node_connection(node_name, src[1])) {
+                    //confirm that their is data to pickup IF there is no data then hang for data
+                    //send the data for pickup, check on next iteration if data has been picked up else send again.
+                    let d = get_data_to_receive(node_name, src[1]);
+                    if (d != null) {
+                        // move the received data that is in D
+                        send_data_from_connection_port(node_name, dst[1], d);
+                        return;
+                    } else {
+                        //there is no data waiting to be received, put the node in a hang state
+                        in_node.hang_receive_state = true;
+                        return;
+                    }
+                }
+            }
+        }
+        return;
+    }
+}
+
 function isNumber(word) {
     return !isNaN(word);
 }
 
+function confirm_node_connection(node_name, dir) {
+    for (const connection of LEVEL_ONE_CONNECTIONS) {
+        const [from, to, direction] = connection;
+        if (from == node_name && dir == direction) {
+            return true;
+        }
+    };
+    return false;
+}
 
 function find_src(inst_line, target_word = 1) {
     let r = []
@@ -402,6 +584,10 @@ function find_src(inst_line, target_word = 1) {
         r.push("DIR")
         r.push(word);
         return r;
+    } else if (VALID_INTERNAL_DIR.has(word)) {
+        r.push("ACC")
+        r.push(word);
+        return r;
     } else {
         r.push("NULL");
         r.push(word);
@@ -409,7 +595,36 @@ function find_src(inst_line, target_word = 1) {
     }
 }
 
+function find_dst(inst_line, target_word = 2) {
+    let r = []
+    const words = inst_line.split(/\s+/);
+    if (words.length > 1) {
+        const word = words[target_word]
+        if (VALID_DIR.has(word)) {
+            r.push("DIR")
+            r.push(word);
+            return r;
+        } else if (VALID_INTERNAL_DIR.has(word)) {
+            r.push("ACC")
+            r.push(word);
+            return r;
+        } else {
+            r.push("NULL");
+            r.push(word);
+            return r;
+        }
+    }
+    r.push("NULL");
+    r.push(word);
+    return r;
+}
+
 function process_instruction(node_name, inst) {
+
+    //get the current node
+    const in_node = current_nodes.find(({
+        name
+    }) => name === node_name);
 
     /*
     "#",
@@ -442,6 +657,8 @@ function process_instruction(node_name, inst) {
         inst_sav(node_name);
     } else if (inst[0] == "ADD") {
         inst_add(node_name, inst);
+    } else if (inst[0] == "MOV") {
+        inst_mov(node_name, inst);
     }
 
     return null;
@@ -451,9 +668,11 @@ function process_instruction(node_name, inst) {
 function btn_step() {
     for (let i = 0; i < current_nodes.length; i++) {
         //READ CURRENT INSTRUCTION
-        let cur_instruction = find_instruction(current_nodes[i].name);
-        if (cur_instruction[0] != "") {
-            process_instruction(current_nodes[i].name, cur_instruction)
+        if (node_send_hang_state_check(current_nodes[i].name) == false) {
+            let cur_instruction = find_instruction(current_nodes[i].name);
+            if (cur_instruction[0] != "") {
+                process_instruction(current_nodes[i].name, cur_instruction)
+            }
         }
     }
 

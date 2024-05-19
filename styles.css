@@ -18,7 +18,7 @@
     flex-direction: column;
     margin-left: 20px;
     border: 1px solid white;
-    width: 50px;
+    width: 60px;
 }
 .UI_BUTTON{
     padding: 32px 32px;
@@ -30,7 +30,8 @@
     background-color: rgb(36, 35, 35);
 }
 .NODE_TEXT{
-    margin: 4px;
+    margin: 1px;
+    margin-left: .2vw;
     font-weight: bold;
     font-family: monospace;
     color: rgb(200, 200, 200);
@@ -85,17 +86,17 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    margin-top: 1vh;
+    margin-top: .05vh;
     margin-bottom: .1vh;
 }
 .INSTRUCTION_CODE_LINE{
     /* Preserve line breaks */
     width: 70%;
-    height: 1.5VH;
+    height: 1.6VH;
     margin-left: 2.5vw;
-    min-height: 1.0em; /* Minimum height to show empty lines */
+    min-height: .85em; /* Minimum height to show empty lines */
     cursor: text; 
-    font-size: 1.0vw;
+    font-size: .8vw;
     color: rgb(200, 200, 200);
     border: 1px solid  rgb(140, 140, 140);
     text-transform: uppercase;
