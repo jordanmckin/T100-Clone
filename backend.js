@@ -32,7 +32,7 @@ let current_connection_port_data = []; //[from, to, direction, data]
 
 const LEVEL_ONE_BLURB = "WRITE THE VALUES OF INPUTS 1 & 3 to OUTPUTS 1 & 3. BOTH IN & OUT SHOULD MATCH =D"
 const LEVEL_ONE_NODES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-let LEVEL_ONE_DATA_A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+let LEVEL_ONE_DATA_A = [10, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 let LEVEL_ONE_DATA_B = [];
 let LEVEL_ONE_DATA_C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_EXPECTED_OUTPUT_A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
