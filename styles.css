@@ -1,118 +1,213 @@
-.NODE{
-    width: 20vw;
-    height: 27vh;
-    border: 2px solid;
-    border-color: rgb(140, 140, 140);
-    background-color:  rgb(36, 35, 35);
-    margin: 1vw;
-    display: flex;
-    flex-direction: row;
+.NODE {
+  width: 20vw;
+  height: 27vh;
+  border: 2px solid;
+  border-color: rgb(140, 140, 140);
+  background-color: rgb(36, 35, 35);
+  margin: 1vw;
+  display: flex;
+  flex-direction: row;
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
 }
 
-.NODE_INFO{
-    position: relative;
-    float: right;
-    margin-top: .2vh;
-    margin-right: 1vw;
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    border: 1px solid white;
-    width: 60px;
+.NODE_INFO {
+  position: relative;
+  float: right;
+  margin-top: 0.2vh;
+  margin-right: 1vw;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  border: 1px solid white;
+  width: 60px;
 }
-.UI_BUTTON{
-    padding: 32px 32px;
-    position: absolute;
+.UI_BUTTON {
+  padding: 30px 30px;
+  position: absolute;
+  background-color: rgb(36, 35, 35);
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+  font-size: 1.5vh;
+}
 
+.background {
+  background-color: rgb(36, 35, 35);
 }
-
-.background{
-    background-color: rgb(36, 35, 35);
+.NODE_TEXT {
+  margin: 1px;
+  margin-left: 0.2vw;
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+  font-size: 1vw;
 }
-.NODE_TEXT{
-    margin: 1px;
-    margin-left: .2vw;
-    font-weight: bold;
-    font-family: monospace;
-    color: rgb(200, 200, 200);
-    font-size: 1.0vw;
+.NODE_TEXT_LABEL {
+  color: rgb(140, 140, 140);
+  font-family: monospace;
+  font-size: 0.9vw;
+  font-weight: bolder;
+  text-decoration-line: underline;
 }
-.NODE_TEXT_LABEL{
-    color: rgb(140, 140, 140);
-    font-family:monospace;
-    font-size: .9vw;
-    font-weight: bolder;
-    text-decoration-line:underline;
-}
-.instruction_input{
-    font-size: 1.25vw;
-    resize: none;
-    height: 25vh;
-    width: 14vw;
-    margin: 6px;
-    font-family:monospace;
-    background-color: rgb(36, 35, 35);
-    color: rgb(200, 200, 200);
+.instruction_input {
+  font-size: 1.25vw;
+  resize: none;
+  height: 25vh;
+  width: 14vw;
+  margin: 6px;
+  font-family: monospace;
+  background-color: rgb(36, 35, 35);
+  color: rgb(200, 200, 200);
 }
 .arrow-up {
-    width: 0px;
-    height: 0px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 20px solid black; /* Adjust thickness and color as needed */
+  width: 0px;
+  height: 0px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid black; /* Adjust thickness and color as needed */
 }
 .arrow-left {
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-right: 20px solid black; /* Adjust thickness and color as needed */
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 20px solid black; /* Adjust thickness and color as needed */
 }
 .arrow-right {
-    width: 0;
-    height: 0;
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-left: 20px solid black; /* Adjust thickness and color as needed */
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 20px solid black; /* Adjust thickness and color as needed */
 }
 .arrow-down {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 20px solid black; /* Adjust thickness and color as needed */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid black; /* Adjust thickness and color as needed */
 }
-.INSTRUCTION_HOLDER{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-top: .05vh;
-    margin-bottom: .1vh;
+.INSTRUCTION_HOLDER {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-top: 0.05vh;
+  margin-bottom: 0.1vh;
 }
-.INSTRUCTION_CODE_LINE{
-    /* Preserve line breaks */
-    width: 70%;
-    height: 1.6VH;
-    margin-left: 2.5vw;
-    min-height: .85em; /* Minimum height to show empty lines */
-    cursor: text; 
-    font-size: .8vw;
-    color: rgb(200, 200, 200);
-    border: 1px solid  rgb(140, 140, 140);
-    text-transform: uppercase;
-    font-family: monospace;
+.INSTRUCTION_CODE_LINE {
+  /* Preserve line breaks */
+  width: 70%;
+  height: 1.6vh;
+  margin-left: 2.5vw;
+  min-height: 0.85em; /* Minimum height to show empty lines */
+  cursor: text;
+  font-size: 0.8vw;
+  color: rgb(200, 200, 200);
+  border: 1px solid rgb(140, 140, 140);
+  text-transform: uppercase;
+  font-family: monospace;
 }
-#NODE_TABLE{
-    margin-left: 15vw;
+.level_num_box {
+  position: absolute;
+  border: 1px solid rgb(140, 140, 140);
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
+  width: 2vw;
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+  line-height: 5.5px;
+  text-align: center;
 }
-#STEP_BUTTON{
-    margin-top: 80vh;
-    margin-left: .2vw;
+.level_header {
+  position: absolute;
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
 }
-#STOP_BUTTON{
-    margin-top: 80vh;
-    margin-left: 8vw; 
+.number {
+  font-size: 1.8vh;
 }
-#CLEAR_BUTTON{
-    background-color: rgb(152, 50, 50);
+
+#in_a {
+  margin-left: 3vw;
+  margin-top: 8vh;
+}
+#in_b {
+  margin-left: 6vw;
+  margin-top: 8vh;
+}
+#in_c {
+  margin-left: 9vw;
+  margin-top: 8vh;
+}
+#out_a {
+  margin-left: 13vw;
+  margin-top: 8vh;
+}
+#out_b {
+  margin-left: 19vw;
+
+  margin-top: 8vh;
+}
+#out_c {
+  margin-left: 25vw;
+  margin-top: 8vh;
+}
+#level_num_box_in_a {
+  margin-left: 3vw;
+  margin-top: 10vh;
+}
+#level_num_box_in_b {
+  margin-left: 6vw;
+  margin-top: 10vh;
+}
+#level_num_box_in_c {
+  margin-left: 9vw;
+  margin-top: 10vh;
+}
+#level_num_box_expected_a {
+  margin-left: 12vw;
+  margin-top: 10vh;
+}
+#level_num_box_expected_b {
+  margin-left: 18vw;
+  margin-top: 10vh;
+}
+#level_num_box_expected_c {
+  margin-left: 24vw;
+  margin-top: 10vh;
+}
+#level_num_box_output_a {
+  margin-left: 15vw;
+  margin-top: 10vh;
+}
+#level_num_box_output_b {
+  margin-left: 21vw;
+  margin-top: 10vh;
+}
+#level_num_box_output_c {
+  margin-left: 27vw;
+  margin-top: 10vh;
+}
+#NODE_TABLE {
+  margin-left: 30vw;
+}
+#STEP_BUTTON {
+  position: absolute;
+  margin-top: 85vh;
+  margin-left: 0.2vw;
+}
+#STOP_BUTTON {
+  margin-top: 85vh;
+  margin-left: 7vw;
+}
+#RUN_BUTTON {
+  margin-top: 85vh;
+  margin-left: 21vw;
+}
+#CLEAR_BUTTON {
+  background-color: rgb(152, 50, 50);
+  position: absolute;
+  margin-top: 85vh;
+  margin-left: 14vw;
 }

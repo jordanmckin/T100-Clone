@@ -32,7 +32,7 @@ let current_connection_port_data = []; //[from, to, direction, data]
 
 const LEVEL_ONE_BLURB = "WRITE THE VALUES OF INPUTS 1 & 3 to OUTPUTS 1 & 3. BOTH IN & OUT SHOULD MATCH =D"
 const LEVEL_ONE_NODES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-let LEVEL_ONE_DATA_A = [10, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+let LEVEL_ONE_DATA_A = [10, 999, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 999, 6, 7, 8, 9, 1, 2, 3, 999, 5, 6, 7, 8, 9, 1, 2, 999, 4, 5, 6, 7, 8, 9];
 let LEVEL_ONE_DATA_B = [];
 let LEVEL_ONE_DATA_C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_EXPECTED_OUTPUT_A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -165,6 +165,13 @@ function update_display() {
     }
 }
 
+function update_level_data_ui(){
+    //HIGHLIGHT CURRENT LINE THAT THE IN NODES ARE OUTPUTTING
+
+    //HIGHLIGHT CURRENT LINE THAT IS CURRENTLY BEING OUTPUTTED
+        //HIGHLIGHT INCORRECT OUTPUTS
+}
+
 function clear_instruction_colors(n = -1) {
     if (n == -1) {
         for (let i = 0; i < current_nodes.length; i++) {
@@ -246,7 +253,122 @@ function limit_instruction_input_fiels() {
 
 function initialize_level() {
 
+    //DISPLAY DATA
+    const numberBox = document.getElementById("level_num_box_in_a");
+    if(LEVEL_ONE_DATA_A.length < 1){
+        for(i=0; i < 36; i++){
+            const numberElement = document.createElement('p');
+            numberElement.className = '.number';
+            numberElement.textContent = "...";
+            numberBox.appendChild(numberElement);
+        }
+    }
+    LEVEL_ONE_DATA_A.forEach(number => {
+        const numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = number;
+        numberBox.appendChild(numberElement);
+    })
+    
+    const numberBoxb = document.getElementById("level_num_box_in_b");
+    if(LEVEL_ONE_DATA_B.length < 1){
+        for(i=0; i < 36; i++){
+            const numberElement = document.createElement('p');
+            numberElement.className = '.number';
+            numberElement.textContent = "...";
+            numberBoxb.appendChild(numberElement);
+        }
+    }
+    LEVEL_ONE_DATA_B.forEach(number => {
+        const numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = number;
+        numberBoxb.appendChild(numberElement);
+    })
 
+    const numberBoxc = document.getElementById("level_num_box_in_c");
+    if(LEVEL_ONE_DATA_C.length < 1){
+        for(i=0; i < 36; i++){
+            const numberElement = document.createElement('p');
+            numberElement.className = '.number';
+            numberElement.textContent = "...";
+            numberBoxc.appendChild(numberElement);
+        }
+    }
+    LEVEL_ONE_DATA_C.forEach(number => {
+        const numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = number;
+        numberBoxc.appendChild(numberElement);
+    })
+
+
+    const numberBoxoa = document.getElementById("level_num_box_expected_a");
+    if(LEVEL_ONE_EXPECTED_OUTPUT_A.length < 1){
+        for(i=0; i < 36; i++){
+            const numberElement = document.createElement('p');
+            numberElement.className = '.number';
+            numberElement.textContent = "...";
+            numberBoxoa.appendChild(numberElement);
+        }
+    }
+    LEVEL_ONE_EXPECTED_OUTPUT_A.forEach(number => {
+        const numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = number;
+        numberBoxoa.appendChild(numberElement);
+    })
+
+    const numberBoxob = document.getElementById("level_num_box_expected_b");
+    if(LEVEL_ONE_EXPECTED_OUTPUT_B.length < 1){
+        for(i=0; i < 36; i++){
+            const numberElement = document.createElement('p');
+            numberElement.className = '.number';
+            numberElement.textContent = "...";
+            numberBoxob.appendChild(numberElement);
+        }
+    }
+    LEVEL_ONE_EXPECTED_OUTPUT_B.forEach(number => {
+        const numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = number;
+        numberBoxob.appendChild(numberElement);
+    })
+
+    const numberBoxoc = document.getElementById("level_num_box_expected_c");
+    if(LEVEL_ONE_EXPECTED_OUTPUT_C.length < 1){
+        for(i=0; i < 36; i++){
+            const numberElement = document.createElement('p');
+            numberElement.className = '.number';
+            numberElement.textContent = "...";
+            numberBoxoc.appendChild(numberElement);
+        }
+    }
+    LEVEL_ONE_EXPECTED_OUTPUT_C.forEach(number => {
+        const numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = number;
+        numberBoxoc.appendChild(numberElement);
+    })
+
+    //fill out user data boxes with empty values
+    const numberBoxoutputa = document.getElementById("level_num_box_output_a");
+    const numberBoxoutputb = document.getElementById("level_num_box_output_b");
+    const numberBoxoutputc = document.getElementById("level_num_box_output_c");
+    for(i=0; i < 36; i++){
+        let numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = " . ";
+        numberBoxoutputa.appendChild(numberElement);
+        numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = " . ";
+        numberBoxoutputb.appendChild(numberElement);
+        numberElement = document.createElement('p');
+        numberElement.className = '.number';
+        numberElement.textContent = " . ";
+        numberBoxoutputc.appendChild(numberElement);
+    }
 
 }
 
@@ -301,6 +423,7 @@ function node_send_hang_state_check(node_name) {
 
 
 function process_level() {
+
     //push numbers to the inputs if the previous numbers have been taken
     if (LEVEL_ONE_DATA_A.length > 0) {
         a = false;
@@ -998,6 +1121,10 @@ function process_instruction(node_name, inst) {
 
 
     return null;
+}
+
+function btn_run(){
+    //DO THE BTN STEPS FUNCTION IN A LOOP THAT RUNS AT A CERTAIN FRAMERATE
 }
 
 //make a function that runs all the nodes
