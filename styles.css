@@ -127,7 +127,12 @@
 .number {
   font-size: 1.8vh;
 }
-
+.selected_number_higholight{
+  background-color: lightgreen;
+}
+.incorrect_number_highlight{
+  background-color: brown;
+}
 #in_a {
   margin-left: 3vw;
   margin-top: 8vh;
@@ -211,3 +216,4 @@
   margin-top: 85vh;
   margin-left: 14vw;
 }
+

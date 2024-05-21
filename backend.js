@@ -32,16 +32,23 @@ let current_connection_port_data = []; //[from, to, direction, data]
 
 const LEVEL_ONE_BLURB = "WRITE THE VALUES OF INPUTS 1 & 3 to OUTPUTS 1 & 3. BOTH IN & OUT SHOULD MATCH =D"
 const LEVEL_ONE_NODES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-let LEVEL_ONE_DATA_A = [10, 999, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 999, 6, 7, 8, 9, 1, 2, 3, 999, 5, 6, 7, 8, 9, 1, 2, 999, 4, 5, 6, 7, 8, 9];
-let LEVEL_ONE_DATA_B = [];
-let LEVEL_ONE_DATA_C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const LEVEL_ONE_DATA_A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9]; //36 length
+const LEVEL_ONE_DATA_B = [];
+const LEVEL_ONE_DATA_C = [10, 999, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 999, 6, 7, 8, 9, 1, 2, 3, 999, 5, 6, 7, 8, 9, 1, 2, 999, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_EXPECTED_OUTPUT_A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_EXPECTED_OUTPUT_B = [];
 const LEVEL_ONE_EXPECTED_OUTPUT_C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-let LEVEL_ONE_OUTPUT_STACK_A = [];
-let LEVEL_ONE_OUTPUT_STACK_B = [];
-let LEVEL_ONE_OUTPUT_STACK_C = [];
 
+
+let OUTPUT_STACK_A = [];
+let OUTPUT_STACK_B = [];
+let OUTPUT_STACK_C = [];
+let INPUT_STACK_A = [];
+let INPUT_STACK_B = [];
+let INPUT_STACK_C = [];
+let EXPECTED_OUTPUT_A = [];
+let EXPECTED_OUTPUT_B = [];
+let EXPECTED_OUTPUT_C = [];
 let LEVEL_ONE_CONNECTIONS = [
     [1, 2, 'RIGHT'],
     [1, 4, 'DOWN'],
@@ -156,6 +163,12 @@ function reset_display() {
     current_connection_port_data.length = 0;
 }
 
+
+function reset_level_data() {
+    //empty i/o registers for level
+    //change the colors back on the p tags
+}
+
 function update_display() {
     for (let i = 0; i < current_nodes.length; i++) {
         accv = "NODE" + current_nodes[i].name + "_ACC_VALUE";
@@ -165,11 +178,77 @@ function update_display() {
     }
 }
 
-function update_level_data_ui(){
-    //HIGHLIGHT CURRENT LINE THAT THE IN NODES ARE OUTPUTTING
 
+
+
+function update_level_data_ui() {
+    //HIGHLIGHT CURRENT LINE THAT THE IN NODES ARE OUTPUTTING
+    const current_output_a_div = document.getElementById('level_num_box_in_a');
+    const current_output_a_para = current_output_a_div.getElementsByTagName('p');
+    let s = (EXPECTED_OUTPUT_A.length - INPUT_STACK_A.length) - 1;
+    if(s < 0){s = 0};
+    current_output_a_para[s].classList.add('selected_number_higholight');
+
+    const current_output_b_div = document.getElementById('level_num_box_in_b');
+    const current_output_b_para = current_output_b_div.getElementsByTagName('p');
+    s = (EXPECTED_OUTPUT_B.length - INPUT_STACK_B.length) - 1;
+    if(s < 0){s = 0};
+    current_output_b_para[s].classList.add('selected_number_higholight');
+
+    const current_output_c_div = document.getElementById('level_num_box_in_c');
+    const current_output_c_para = current_output_c_div.getElementsByTagName('p');
+    s = (EXPECTED_OUTPUT_C.length - INPUT_STACK_C.length) - 1;
+    if(s < 0){s = 0};
+    current_output_c_para[s].classList.add('selected_number_higholight');
+
+
+    //Fill the OUT A B C with received outputs
     //HIGHLIGHT CURRENT LINE THAT IS CURRENTLY BEING OUTPUTTED
-        //HIGHLIGHT INCORRECT OUTPUTS
+    //HIGHLIGHT INCORRECT OUTPUTS
+    const current_received_output_a_div = document.getElementById('level_num_box_output_a');
+    let current_received_output_a_para = current_received_output_a_div.getElementsByTagName('p');
+    for (i = 0; i < OUTPUT_STACK_A.length; i++) {
+        current_received_output_a_para[i].innerText = OUTPUT_STACK_A[i];
+
+        if ((i + 1) == OUTPUT_STACK_A.length) {
+            if (OUTPUT_STACK_A[i] == EXPECTED_OUTPUT_A[i]) {
+                current_received_output_a_para[i].classList.add('selected_number_higholight');
+            } else {
+                current_received_output_a_para[i].classList.add('incorrect_number_highlight');
+            }
+        }
+    }
+
+    const current_received_output_b_div = document.getElementById('level_num_box_output_b');
+    let current_received_output_b_para = current_received_output_b_div.getElementsByTagName('p');
+    for (i = 0; i < OUTPUT_STACK_B.length; i++) {
+        current_received_output_b_para[i].innerText = OUTPUT_STACK_B[i];
+
+        if ((i + 1) == OUTPUT_STACK_B.length) {
+            if (OUTPUT_STACK_B[i] == EXPECTED_OUTPUT_B[i]) {
+                current_received_output_b_para[i].classList.add('selected_number_higholight');
+            } else {
+                current_received_output_b_para[i].classList.add('incorrect_number_highlight');
+            }
+        }
+    }
+
+    const current_received_output_c_div = document.getElementById('level_num_box_output_c');
+    let current_received_output_c_para = current_received_output_c_div.getElementsByTagName('p');
+    for (i = 0; i < OUTPUT_STACK_C.length; i++) {
+        current_received_output_c_para[i].innerText = OUTPUT_STACK_C[i];
+
+        if ((i + 1) == OUTPUT_STACK_C.length) {
+            if (OUTPUT_STACK_C[i] == EXPECTED_OUTPUT_C[i]) {
+                current_received_output_c_para[i].classList.add('selected_number_higholight');
+            } else {
+                current_received_output_c_para[i].classList.add('incorrect_number_highlight');
+            }
+        }
+    }
+
+
+
 }
 
 function clear_instruction_colors(n = -1) {
@@ -253,33 +332,43 @@ function limit_instruction_input_fiels() {
 
 function initialize_level() {
 
+    //initialize level data
+    INPUT_STACK_A = LEVEL_ONE_DATA_A
+    INPUT_STACK_B = LEVEL_ONE_DATA_B
+    INPUT_STACK_C = LEVEL_ONE_DATA_C
+
+    EXPECTED_OUTPUT_A = LEVEL_ONE_EXPECTED_OUTPUT_A;
+    EXPECTED_OUTPUT_B = LEVEL_ONE_EXPECTED_OUTPUT_B;
+    EXPECTED_OUTPUT_C = LEVEL_ONE_EXPECTED_OUTPUT_C;
+
+
     //DISPLAY DATA
     const numberBox = document.getElementById("level_num_box_in_a");
-    if(LEVEL_ONE_DATA_A.length < 1){
-        for(i=0; i < 36; i++){
+    if (INPUT_STACK_A.length < 1) {
+        for (i = 0; i < 36; i++) {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
             numberBox.appendChild(numberElement);
         }
     }
-    LEVEL_ONE_DATA_A.forEach(number => {
+    INPUT_STACK_A.forEach(number => {
         const numberElement = document.createElement('p');
         numberElement.className = '.number';
         numberElement.textContent = number;
         numberBox.appendChild(numberElement);
     })
-    
+
     const numberBoxb = document.getElementById("level_num_box_in_b");
-    if(LEVEL_ONE_DATA_B.length < 1){
-        for(i=0; i < 36; i++){
+    if (INPUT_STACK_B.length < 1) {
+        for (i = 0; i < 36; i++) {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
             numberBoxb.appendChild(numberElement);
         }
     }
-    LEVEL_ONE_DATA_B.forEach(number => {
+    INPUT_STACK_B.forEach(number => {
         const numberElement = document.createElement('p');
         numberElement.className = '.number';
         numberElement.textContent = number;
@@ -287,15 +376,15 @@ function initialize_level() {
     })
 
     const numberBoxc = document.getElementById("level_num_box_in_c");
-    if(LEVEL_ONE_DATA_C.length < 1){
-        for(i=0; i < 36; i++){
+    if (INPUT_STACK_C.length < 1) {
+        for (i = 0; i < 36; i++) {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
             numberBoxc.appendChild(numberElement);
         }
     }
-    LEVEL_ONE_DATA_C.forEach(number => {
+    INPUT_STACK_C.forEach(number => {
         const numberElement = document.createElement('p');
         numberElement.className = '.number';
         numberElement.textContent = number;
@@ -304,15 +393,15 @@ function initialize_level() {
 
 
     const numberBoxoa = document.getElementById("level_num_box_expected_a");
-    if(LEVEL_ONE_EXPECTED_OUTPUT_A.length < 1){
-        for(i=0; i < 36; i++){
+    if (EXPECTED_OUTPUT_A.length < 1) {
+        for (i = 0; i < 36; i++) {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
             numberBoxoa.appendChild(numberElement);
         }
     }
-    LEVEL_ONE_EXPECTED_OUTPUT_A.forEach(number => {
+    EXPECTED_OUTPUT_A.forEach(number => {
         const numberElement = document.createElement('p');
         numberElement.className = '.number';
         numberElement.textContent = number;
@@ -320,15 +409,15 @@ function initialize_level() {
     })
 
     const numberBoxob = document.getElementById("level_num_box_expected_b");
-    if(LEVEL_ONE_EXPECTED_OUTPUT_B.length < 1){
-        for(i=0; i < 36; i++){
+    if (EXPECTED_OUTPUT_B.length < 1) {
+        for (i = 0; i < 36; i++) {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
             numberBoxob.appendChild(numberElement);
         }
     }
-    LEVEL_ONE_EXPECTED_OUTPUT_B.forEach(number => {
+    EXPECTED_OUTPUT_B.forEach(number => {
         const numberElement = document.createElement('p');
         numberElement.className = '.number';
         numberElement.textContent = number;
@@ -336,15 +425,15 @@ function initialize_level() {
     })
 
     const numberBoxoc = document.getElementById("level_num_box_expected_c");
-    if(LEVEL_ONE_EXPECTED_OUTPUT_C.length < 1){
-        for(i=0; i < 36; i++){
+    if (EXPECTED_OUTPUT_C.length < 1) {
+        for (i = 0; i < 36; i++) {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
             numberBoxoc.appendChild(numberElement);
         }
     }
-    LEVEL_ONE_EXPECTED_OUTPUT_C.forEach(number => {
+    EXPECTED_OUTPUT_C.forEach(number => {
         const numberElement = document.createElement('p');
         numberElement.className = '.number';
         numberElement.textContent = number;
@@ -355,7 +444,7 @@ function initialize_level() {
     const numberBoxoutputa = document.getElementById("level_num_box_output_a");
     const numberBoxoutputb = document.getElementById("level_num_box_output_b");
     const numberBoxoutputc = document.getElementById("level_num_box_output_c");
-    for(i=0; i < 36; i++){
+    for (i = 0; i < 36; i++) {
         let numberElement = document.createElement('p');
         numberElement.className = '.number';
         numberElement.textContent = " . ";
@@ -425,7 +514,7 @@ function node_send_hang_state_check(node_name) {
 function process_level() {
 
     //push numbers to the inputs if the previous numbers have been taken
-    if (LEVEL_ONE_DATA_A.length > 0) {
+    if (INPUT_STACK_A.length > 0) {
         a = false;
         //check to see if there is data from this node in the sent list
         if (current_connection_port_data.length > 0) {
@@ -440,11 +529,11 @@ function process_level() {
         }
         if (a == false) {
             //send a data to be recieved & pop it from the send list
-            current_connection_port_data.push([11, 1, "DOWN", LEVEL_ONE_DATA_A.pop()]);
+            current_connection_port_data.push([11, 1, "DOWN", INPUT_STACK_A.pop()]);
             console.log(current_connection_port_data);
         }
     }
-    if (LEVEL_ONE_DATA_B.length > 0) {
+    if (INPUT_STACK_B.length > 0) {
         a = false;
         //check to see if there is data from this node in the sent list
         if (current_connection_port_data.length > 0) {
@@ -459,11 +548,11 @@ function process_level() {
         }
         if (a == false) {
             //send a data to be recieved & pop it from the send list
-            current_connection_port_data.push([22, 2, "DOWN", LEVEL_ONE_DATA_B.pop()]);
+            current_connection_port_data.push([22, 2, "DOWN", INPUT_STACK_B.pop()]);
             console.log(current_connection_port_data);
         }
     }
-    if (LEVEL_ONE_DATA_C.length > 0) {
+    if (INPUT_STACK_C.length > 0) {
         a = false;
         //check to see if there is data from this node in the sent list
         if (current_connection_port_data.length > 0) {
@@ -478,49 +567,56 @@ function process_level() {
         }
         if (a == false) {
             //send a data to be recieved & pop it from the send list
-            current_connection_port_data.push([33, 3, "DOWN", LEVEL_ONE_DATA_C.pop()]);
+            current_connection_port_data.push([33, 3, "DOWN", INPUT_STACK_C.pop()]);
             console.log(current_connection_port_data);
         }
     }
-//OUTPUT
+    //OUTPUT
     //recieve numbers from outputs if some are waiting
-    if (LEVEL_ONE_EXPECTED_OUTPUT_A.length > 0) {
+    if (EXPECTED_OUTPUT_A.length > 0) {
         if (current_connection_port_data.length > 0) {
             for (let i = 0; i < current_connection_port_data.length; i++) {
                 const [from, to, direction, ddata] = current_connection_port_data[i];
                 if (7 == from && 111 == to && "DOWN" == direction) {
-                    LEVEL_ONE_OUTPUT_STACK_A.push(ddata);
-                    console.log(LEVEL_ONE_OUTPUT_STACK_A);
-                    // Remove the found entry
-                    current_connection_port_data.splice(i, 1);
+                    console.log(OUTPUT_STACK_A.length);
+                    if (OUTPUT_STACK_A.length < EXPECTED_OUTPUT_A.length) {
+                        OUTPUT_STACK_A.push(ddata);
+                        // Remove the found entry
+                        current_connection_port_data.splice(i, 1);
+                    }
                 }
             }
-        } 
+        }
     }
-    if (LEVEL_ONE_EXPECTED_OUTPUT_B.length > 0) {
+    if (EXPECTED_OUTPUT_B.length > 0) {
         if (current_connection_port_data.length > 0) {
             for (let i = 0; i < current_connection_port_data.length; i++) {
                 const [from, to, direction, ddata] = current_connection_port_data[i];
                 if (8 == from && 222 == to && "DOWN" == direction) {
-                    LEVEL_ONE_OUTPUT_STACK_B.push(ddata);
-                    // Remove the found entry
-                    current_connection_port_data.splice(i, 1);
+                    if (OUTPUT_STACK_B.length < EXPECTED_OUTPUT_B.length) {
+                        OUTPUT_STACK_B.push(ddata);
+                        // Remove the found entry
+                        current_connection_port_data.splice(i, 1);
+                    }
                 }
             }
-        } 
+        }
     }
-    if (LEVEL_ONE_EXPECTED_OUTPUT_C.length > 0) {
+    if (EXPECTED_OUTPUT_C.length > 0) {
         if (current_connection_port_data.length > 0) {
             for (let i = 0; i < current_connection_port_data.length; i++) {
                 const [from, to, direction, ddata] = current_connection_port_data[i];
                 if (9 == from && 333 == to && "DOWN" == direction) {
-                    LEVEL_ONE_OUTPUT_STACK_C.push(ddata);
-                    // Remove the found entry
-                    current_connection_port_data.splice(i, 1);
-                    return;
+
+                    if (OUTPUT_STACK_C.length < EXPECTED_OUTPUT_C.length) {
+                        OUTPUT_STACK_C.push(ddata);
+                        // Remove the found entry
+                        current_connection_port_data.splice(i, 1);
+                        return;
+                    }
                 }
             }
-        } 
+        }
     }
 }
 
@@ -1123,7 +1219,7 @@ function process_instruction(node_name, inst) {
     return null;
 }
 
-function btn_run(){
+function btn_run() {
     //DO THE BTN STEPS FUNCTION IN A LOOP THAT RUNS AT A CERTAIN FRAMERATE
 }
 
@@ -1131,6 +1227,7 @@ function btn_run(){
 function btn_step() {
 
     process_level();
+    update_level_data_ui();
 
     for (let i = 0; i < current_nodes.length; i++) {
         //READ CURRENT INSTRUCTION
