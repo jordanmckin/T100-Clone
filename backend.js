@@ -24,6 +24,14 @@ const VALID_INTERNAL_DIR = new Set([
     "ACC"
 ]);
 
+
+let RUNNING = false;
+let FAST = false;
+const RUN_SPEED = 500;
+const FAST_RUN_SPEED = 150;
+
+let iterations = 0;
+
 const node_count = 9;
 let graph_connections = null;
 const current_nodes = [];
@@ -32,12 +40,12 @@ let current_connection_port_data = []; //[from, to, direction, data]
 
 const LEVEL_ONE_BLURB = "> Read a value from IN.A \n > Read a value from IN.C \n > Output IN.A to OUT.C \n > Output IN.C to OUT.A";
 const LEVEL_ONE_NODES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const LEVEL_ONE_DATA_A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9]; //36 length
+const LEVEL_ONE_DATA_A = [111, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 999]; //36 length
 const LEVEL_ONE_DATA_B = [];
-const LEVEL_ONE_DATA_C = [10, 999, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 999, 6, 7, 8, 9, 1, 2, 3, 999, 5, 6, 7, 8, 9, 1, 2, 999, 4, 5, 6, 7, 8, 9];
-const LEVEL_ONE_EXPECTED_OUTPUT_A = [0, 0, 0, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const LEVEL_ONE_DATA_C = [111, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 999];
+const LEVEL_ONE_EXPECTED_OUTPUT_A = [111, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 999];
 const LEVEL_ONE_EXPECTED_OUTPUT_B = [];
-const LEVEL_ONE_EXPECTED_OUTPUT_C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const LEVEL_ONE_EXPECTED_OUTPUT_C = [111, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 999];
 
 //load level data into these placeholders in initialize level
 let OUTPUT_STACK_A = [];
@@ -393,7 +401,7 @@ function limit_instruction_input_fiels() {
 
 function initialize_level() {
 
- 
+
     //initialize level data
     INPUT_STACK_A = Array.from(LEVEL_ONE_DATA_A);
     INPUT_STACK_B = Array.from(LEVEL_ONE_DATA_B);
@@ -443,6 +451,20 @@ function initialize_level() {
     Array.from(current_expected_output_b_para).forEach(p => p.remove());
     Array.from(current_expected_output_c_para).forEach(p => p.remove());
 
+
+    //fill out user data boxes with empty values
+    const numberBoxoutputa = document.getElementById("level_num_box_output_a");
+    const numberBoxoutputb = document.getElementById("level_num_box_output_b");
+    const numberBoxoutputc = document.getElementById("level_num_box_output_c");
+
+    const in_header_a = document.getElementById("in_a");
+    const in_header_b = document.getElementById("in_b");
+    const in_header_c = document.getElementById("in_c");
+
+    const out_header_a = document.getElementById("out_a");
+    const out_header_b = document.getElementById("out_b");
+    const out_header_c = document.getElementById("out_c");
+
     //DISPLAY DATA
     const numberBox = document.getElementById("level_num_box_in_a");
     if (INPUT_STACK_A.length < 1) {
@@ -450,14 +472,19 @@ function initialize_level() {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
+            numberBox.className = "null_number";
             numberBox.appendChild(numberElement);
+            in_header_a.className = "disabled_level_header";
+
         }
     }
     INPUT_STACK_A.forEach(number => {
         const numberElement = document.createElement('p');
         numberElement.className = '.number';
         numberElement.textContent = number;
+        numberBox.className = "level_num_box";
         numberBox.appendChild(numberElement);
+        in_header_a.className = "level_header";
     })
 
     const numberBoxb = document.getElementById("level_num_box_in_b");
@@ -465,8 +492,10 @@ function initialize_level() {
         for (i = 0; i < 36; i++) {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
+            numberBoxb.className = "null_number";
             numberElement.textContent = "...";
             numberBoxb.appendChild(numberElement);
+            in_header_b.className = "disabled_level_header";
         }
     }
     INPUT_STACK_B.forEach(number => {
@@ -474,6 +503,8 @@ function initialize_level() {
         numberElement.className = '.number';
         numberElement.textContent = number;
         numberBoxb.appendChild(numberElement);
+        numberBoxb.className = "level_num_box";
+        in_header_b.className = "level_header";
     })
 
     const numberBoxc = document.getElementById("level_num_box_in_c");
@@ -482,7 +513,9 @@ function initialize_level() {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
+            numberBoxc.className = "null_number";
             numberBoxc.appendChild(numberElement);
+            in_header_c.className = "disabled_level_header";
         }
     }
     INPUT_STACK_C.forEach(number => {
@@ -490,6 +523,8 @@ function initialize_level() {
         numberElement.className = '.number';
         numberElement.textContent = number;
         numberBoxc.appendChild(numberElement);
+        numberBoxc.className = "level_num_box";
+        in_header_c.className = "level_header";
     })
 
 
@@ -499,7 +534,10 @@ function initialize_level() {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
+            numberBoxoa.className = "null_number";
             numberBoxoa.appendChild(numberElement);
+            numberBoxoutputa.className = "null_number";
+            out_header_a.className = "disabled_level_header";
         }
     }
     EXPECTED_OUTPUT_A.forEach(number => {
@@ -507,6 +545,9 @@ function initialize_level() {
         numberElement.className = '.number';
         numberElement.textContent = number;
         numberBoxoa.appendChild(numberElement);
+        numberBoxoa.className = "level_num_box";
+        numberBoxoutputa.className = "level_num_box";
+        out_header_a.className = "level_header";
     })
 
     const numberBoxob = document.getElementById("level_num_box_expected_b");
@@ -515,7 +556,10 @@ function initialize_level() {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
+            numberBoxob.className = "null_number";
             numberBoxob.appendChild(numberElement);
+            numberBoxoutputb.className = "null_number";
+            out_header_b.className = "disabled_level_header";
         }
     }
     EXPECTED_OUTPUT_B.forEach(number => {
@@ -523,6 +567,9 @@ function initialize_level() {
         numberElement.className = '.number';
         numberElement.textContent = number;
         numberBoxob.appendChild(numberElement);
+        numberBoxob.className = "level_num_box";
+        numberBoxoutputb.className = "level_num_box";
+        out_header_b.className = "level_header";
     })
 
     const numberBoxoc = document.getElementById("level_num_box_expected_c");
@@ -531,7 +578,10 @@ function initialize_level() {
             const numberElement = document.createElement('p');
             numberElement.className = '.number';
             numberElement.textContent = "...";
+            numberBoxoc.className = "null_number";
             numberBoxoc.appendChild(numberElement);
+            numberBoxoutputc.className = "null_number";
+            out_header_c.className = "disabled_level_header";
         }
     }
     EXPECTED_OUTPUT_C.forEach(number => {
@@ -539,12 +589,12 @@ function initialize_level() {
         numberElement.className = '.number';
         numberElement.textContent = number;
         numberBoxoc.appendChild(numberElement);
+        numberBoxoc.className = "level_num_box";
+        numberBoxoutputc.className = "level_num_box";
+        out_header_c.className = "level_header";
     })
 
-    //fill out user data boxes with empty values
-    const numberBoxoutputa = document.getElementById("level_num_box_output_a");
-    const numberBoxoutputb = document.getElementById("level_num_box_output_b");
-    const numberBoxoutputc = document.getElementById("level_num_box_output_c");
+
     for (i = 0; i < 36; i++) {
         let numberElement = document.createElement('p');
         numberElement.className = '.number';
@@ -559,6 +609,7 @@ function initialize_level() {
         numberElement.textContent = " . ";
         numberBoxoutputc.appendChild(numberElement);
     }
+    
 
 }
 
@@ -612,6 +663,51 @@ function node_send_hang_state_check(node_name) {
 }
 
 
+
+function arrays_Equal(arr1, arr2) {
+    // Check if arrays are the same length
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+
+    // Compare elements
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function process_level_conditions() {
+    let a = false;
+    let b = false;
+    let c = false;
+    if (EXPECTED_OUTPUT_A.length > 0) {
+        if (arrays_Equal(OUTPUT_STACK_A, EXPECTED_OUTPUT_A)) {
+            //console.log("EQUAL")
+            a = true;
+        }
+    }else{a = true;}
+    if (EXPECTED_OUTPUT_B.length > 0) {
+        if (arrays_Equal(OUTPUT_STACK_B, EXPECTED_OUTPUT_B)) {
+            //console.log("EQUAL")
+            b = true;
+        }
+    }else{b = true;}
+    if (EXPECTED_OUTPUT_C.length > 0) {
+        if (arrays_Equal(OUTPUT_STACK_C, EXPECTED_OUTPUT_C)) {
+            //console.log("EQUAL")
+            c = true;
+        }
+    }else{c = true;}
+
+
+    if(a == true && b == true && c == true){
+        console.log("WINNER");
+    }
+}
+
 function process_level() {
 
     //push numbers to the inputs if the previous numbers have been taken
@@ -630,7 +726,7 @@ function process_level() {
         }
         if (a == false) {
             //send a data to be recieved & pop it from the send list
-            current_connection_port_data.push([11, 1, "DOWN", INPUT_STACK_A.pop()]);
+            current_connection_port_data.push([11, 1, "DOWN", INPUT_STACK_A.shift()]);
         }
     }
     if (INPUT_STACK_B.length > 0) {
@@ -648,7 +744,7 @@ function process_level() {
         }
         if (a == false) {
             //send a data to be recieved & pop it from the send list
-            current_connection_port_data.push([22, 2, "DOWN", INPUT_STACK_B.pop()]);
+            current_connection_port_data.push([22, 2, "DOWN", INPUT_STACK_B.shift()]);
         }
     }
     if (INPUT_STACK_C.length > 0) {
@@ -666,7 +762,7 @@ function process_level() {
         }
         if (a == false) {
             //send a data to be recieved & pop it from the send list
-            current_connection_port_data.push([33, 3, "DOWN", INPUT_STACK_C.pop()]);
+            current_connection_port_data.push([33, 3, "DOWN", INPUT_STACK_C.shift()]);
         }
     }
     //OUTPUT
@@ -742,8 +838,7 @@ function find_instruction(node_name) {
         starting_line = starting_line + 1;
         if (starting_line > 14) {
             starting_line = 0
-        }
-        else if (starting_line < 0){
+        } else if (starting_line < 0) {
             starting_line = 0;
         }
         ln = "NODE" + in_node.name + "_INSTRUCTION" + starting_line + "_CODE_LINE";
@@ -1321,14 +1416,62 @@ function process_instruction(node_name, inst) {
     return null;
 }
 
+function stop_run_loop() {
+    clearInterval(intervalID);
+    iterations = 0;
+    document.getElementById('RUN_BUTTON').classList.remove('button_running');
+    document.getElementById('RUN_BUTTON').innerText = "RUN";
+    document.getElementById('FAST_BUTTON').classList.remove('button_fast');
+    document.getElementById('FAST_BUTTON').innerText = "FAST";
+    document.getElementById('FAST_BUTTON').disabled = false;
+    console.log('loop stopped');
+    RUNNING = false;
+    FAST = false;
+}
+
 function btn_run() {
     //DO THE BTN STEPS FUNCTION IN A LOOP THAT RUNS AT A CERTAIN FRAMERATE
+    if (iterations != 0) {
+        stop_run_loop();
+    } else {
+        iterations++;
+        let speed = 0;
+        if (FAST == true) {
+            speed = FAST_RUN_SPEED;
+            document.getElementById('FAST_BUTTON').classList.add('button_fast');
+            document.getElementById('FAST_BUTTON').innerText = "STOP";
+        } else {
+            speed = RUN_SPEED;
+            document.getElementById('FAST_BUTTON').disabled = true;
+        }
+        intervalID = setInterval(() => {
+            console.log('Iteration', iterations);
+            // current_received_output_a_para[i].classList.add('selected_number_higholight');
+            document.getElementById('RUN_BUTTON').classList.add('button_running');
+            document.getElementById('RUN_BUTTON').innerText = "STOP";
+
+
+            btn_step();
+            RUNNING = true;
+
+            iterations++;
+        }, speed);
+    }
+
+}
+
+function btn_fast() {
+    FAST = true;
+
+    btn_run();
+
 }
 
 //make a function that runs all the nodes
 function btn_step() {
 
     process_level();
+    process_level_conditions();
     update_level_data_ui();
 
     for (let i = 0; i < current_nodes.length; i++) {
@@ -1348,6 +1491,7 @@ function btn_step() {
 function btn_stop() {
     reset_display();
     initialize_level();
+    stop_run_loop();
 }
 
 //button clear

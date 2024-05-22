@@ -124,9 +124,27 @@
   font-family: monospace;
   color: rgb(200, 200, 200);
 }
+.disabled_level_header {
+  position: absolute;
+  font-weight: bold;
+  font-family: monospace;
+  color:  rgb(75, 70, 70);
+}
 .number {
   font-size: 1.8vh;
 }
+.null_number {
+  position: absolute;
+  border: 1px dotted rgb(75, 70, 70);
+  box-shadow: rgb(75, 70, 70) 1px 1px 1px 1px;
+  width: 2vw;
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(75, 70, 70);
+  line-height: .55vh;
+  text-align: center;
+}
+
 .selected_number_higholight{
   color: green;
   font-weight: bolder;
@@ -136,6 +154,18 @@
   background-color: brown;
   text-decoration:line-through;
 }
+.button_running{
+  background-color: lightgreen;
+  color: black;
+  text-decoration: underline;
+}
+.button_fast{
+  background-color: brown;
+  color: black;
+  text-decoration: underline;
+}
+
+
 .LEVEL_BLURB{
   position: absolute;
   margin-left: .5vw;
@@ -230,12 +260,16 @@
 }
 #RUN_BUTTON {
   margin-top: 85vh;
-  margin-left: 21vw;
+  margin-left: 14.5vw;
 }
 #CLEAR_BUTTON {
   background-color: rgb(152, 50, 50);
   position: absolute;
+  margin-top: 90vh;
+  margin-left: 30vw;
+}
+#FAST_BUTTON{
   margin-top: 85vh;
-  margin-left: 14vw;
+  margin-left: 21.5vw;
 }
 
