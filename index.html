@@ -8,6 +8,8 @@
 </head>
 
 <body class="background" onload="start_up()">
+
+    <div class="LEVEL_BLURB"><p class="LEVEL_BLURB_TEXT" id="LEVEL_BLURB_TEXT"></p></div>
     <button class="UI_BUTTON" id="STEP_BUTTON" onclick="btn_step()">STEP</button>
     <button class="UI_BUTTON" id="STOP_BUTTON" onclick="btn_stop()">STOP</button>
     <button class="UI_BUTTON" id="CLEAR_BUTTON" onclick="clear_instruction_data()">CLEAR</button>
@@ -28,6 +30,8 @@
     <p class="level_header" id="out_a">OUT.A</p>
     <p class="level_header" id="out_b">OUT.B</p>
     <p class="level_header" id="out_c">OUT.C</p>
+
+
 
     <table id="NODE_TABLE">
         <tr>
@@ -470,7 +474,7 @@
         </tr>
 
     </table>
-    <div id="4,1" class="arrow-up" style="position:absolute; left:28vw; top:30.5vh;"></div>
+    <!--<div id="4,1" class="arrow-up" style="position:absolute; left:28vw; top:30.5vh;"></div>
     <div id="1,2" class="arrow-right" style="position:absolute; left:28vw; top:30.5vh;"></div>
     <div id="4,1" class="arrow-up" style="position:absolute; left:28vw; top:30.5vh;"></div>
     <div id="4,1" class="arrow-up" style="position:absolute; left:28vw; top:30.5vh;"></div>
@@ -481,7 +485,7 @@
     <div id="4,1" class="arrow-up" style="position:absolute; left:28vw; top:30.5vh;"></div>
 
 
-    <!--     [1, 2],
+        [1, 2],
     [1, 4],
     [1, 11], //INPUT_PORT
     [2, 1],

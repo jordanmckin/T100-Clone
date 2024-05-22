@@ -30,16 +30,16 @@ const current_nodes = [];
 let current_connection_port_data = []; //[from, to, direction, data]
 
 
-const LEVEL_ONE_BLURB = "WRITE THE VALUES OF INPUTS 1 & 3 to OUTPUTS 1 & 3. BOTH IN & OUT SHOULD MATCH =D"
+const LEVEL_ONE_BLURB = "> Read a value from IN.A \n > Read a value from IN.C \n > Output IN.A to OUT.C \n > Output IN.C to OUT.A";
 const LEVEL_ONE_NODES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_DATA_A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9]; //36 length
 const LEVEL_ONE_DATA_B = [];
 const LEVEL_ONE_DATA_C = [10, 999, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 999, 6, 7, 8, 9, 1, 2, 3, 999, 5, 6, 7, 8, 9, 1, 2, 999, 4, 5, 6, 7, 8, 9];
-const LEVEL_ONE_EXPECTED_OUTPUT_A = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const LEVEL_ONE_EXPECTED_OUTPUT_A = [0, 0, 0, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_EXPECTED_OUTPUT_B = [];
 const LEVEL_ONE_EXPECTED_OUTPUT_C = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-
+//load level data into these placeholders in initialize level
 let OUTPUT_STACK_A = [];
 let OUTPUT_STACK_B = [];
 let OUTPUT_STACK_C = [];
@@ -49,7 +49,8 @@ let INPUT_STACK_C = [];
 let EXPECTED_OUTPUT_A = [];
 let EXPECTED_OUTPUT_B = [];
 let EXPECTED_OUTPUT_C = [];
-let LEVEL_ONE_CONNECTIONS = [
+
+const LEVEL_ONE_CONNECTIONS = [
     [1, 2, 'RIGHT'],
     [1, 4, 'DOWN'],
     [1, 11, 'UP'], // input
@@ -161,12 +162,51 @@ function reset_display() {
     }
     clear_instruction_colors();
     current_connection_port_data.length = 0;
+
 }
 
 
 function reset_level_data() {
     //empty i/o registers for level
     //change the colors back on the p tags
+    OUTPUT_STACK_A = [];
+    OUTPUT_STACK_B = [];
+    OUTPUT_STACK_C = [];
+
+    INPUT_STACK_A = [];
+    INPUT_STACK_B = [];
+    INPUT_STACK_C = [];
+
+
+    const current_output_a_div = document.getElementById('level_num_box_in_a');
+    const current_output_a_para = current_output_a_div.getElementsByTagName('p');
+    const current_output_b_div = document.getElementById('level_num_box_in_b');
+    const current_output_b_para = current_output_b_div.getElementsByTagName('p');
+    const current_output_c_div = document.getElementById('level_num_box_in_c');
+    const current_output_c_para = current_output_c_div.getElementsByTagName('p');
+    //output
+    const current_received_output_a_div = document.getElementById('level_num_box_output_a');
+    let current_received_output_a_para = current_received_output_a_div.getElementsByTagName('p');
+    const current_received_output_b_div = document.getElementById('level_num_box_output_b');
+    let current_received_output_b_para = current_received_output_b_div.getElementsByTagName('p');
+    const current_received_output_c_div = document.getElementById('level_num_box_output_c');
+    let current_received_output_c_para = current_received_output_c_div.getElementsByTagName('p');
+
+
+    //delete all previous highlights
+    for (i = 0; i < 35; i++) {
+        current_output_a_para[i].classList.remove('selected_number_higholight');
+        current_output_b_para[i].classList.remove('selected_number_higholight');
+        current_output_c_para[i].classList.remove('selected_number_higholight');
+        current_received_output_a_para[i].classList.remove('selected_number_higholight');
+        current_received_output_a_para[i].classList.remove('incorrect_number_highlight');
+        current_received_output_b_para[i].classList.remove('selected_number_higholight');
+        current_received_output_b_para[i].classList.remove('incorrect_number_highlight');
+        current_received_output_c_para[i].classList.remove('selected_number_higholight');
+        current_received_output_c_para[i].classList.remove('incorrect_number_highlight');
+
+    }
+
 }
 
 function update_display() {
@@ -182,31 +222,63 @@ function update_display() {
 
 
 function update_level_data_ui() {
-    //HIGHLIGHT CURRENT LINE THAT THE IN NODES ARE OUTPUTTING
+    //input
     const current_output_a_div = document.getElementById('level_num_box_in_a');
     const current_output_a_para = current_output_a_div.getElementsByTagName('p');
-    let s = (EXPECTED_OUTPUT_A.length - INPUT_STACK_A.length) - 1;
-    if(s < 0){s = 0};
-    current_output_a_para[s].classList.add('selected_number_higholight');
-
     const current_output_b_div = document.getElementById('level_num_box_in_b');
     const current_output_b_para = current_output_b_div.getElementsByTagName('p');
-    s = (EXPECTED_OUTPUT_B.length - INPUT_STACK_B.length) - 1;
-    if(s < 0){s = 0};
-    current_output_b_para[s].classList.add('selected_number_higholight');
-
     const current_output_c_div = document.getElementById('level_num_box_in_c');
     const current_output_c_para = current_output_c_div.getElementsByTagName('p');
+    //output
+    const current_received_output_a_div = document.getElementById('level_num_box_output_a');
+    let current_received_output_a_para = current_received_output_a_div.getElementsByTagName('p');
+    const current_received_output_b_div = document.getElementById('level_num_box_output_b');
+    let current_received_output_b_para = current_received_output_b_div.getElementsByTagName('p');
+    const current_received_output_c_div = document.getElementById('level_num_box_output_c');
+    let current_received_output_c_para = current_received_output_c_div.getElementsByTagName('p');
+
+    //delete all previous highlights
+    for (i = 0; i < 35; i++) {
+        current_output_a_para[i].classList.remove('selected_number_higholight');
+        current_output_b_para[i].classList.remove('selected_number_higholight');
+        current_output_c_para[i].classList.remove('selected_number_higholight');
+        //keep incorrect lines ?
+        current_received_output_a_para[i].classList.remove('selected_number_higholight');
+        //current_received_output_a_para[i].classList.remove('incorrect_number_highlight');
+        current_received_output_b_para[i].classList.remove('selected_number_higholight');
+        //current_received_output_b_para[i].classList.remove('incorrect_number_highlight');
+        current_received_output_c_para[i].classList.remove('selected_number_higholight');
+        //current_received_output_c_para[i].classList.remove('incorrect_number_highlight');
+
+    }
+
+    //HIGHLIGHT CURRENT LINE THAT THE IN NODES ARE OUTPUTTING
+
+    let s = (EXPECTED_OUTPUT_A.length - INPUT_STACK_A.length) - 1;
+    if (s < 0) {
+        s = 0
+    };
+    current_output_a_para[s].classList.add('selected_number_higholight');
+
+
+    s = (EXPECTED_OUTPUT_B.length - INPUT_STACK_B.length) - 1;
+    if (s < 0) {
+        s = 0
+    };
+    current_output_b_para[s].classList.add('selected_number_higholight');
+
+
     s = (EXPECTED_OUTPUT_C.length - INPUT_STACK_C.length) - 1;
-    if(s < 0){s = 0};
+    if (s < 0) {
+        s = 0
+    };
     current_output_c_para[s].classList.add('selected_number_higholight');
 
 
     //Fill the OUT A B C with received outputs
     //HIGHLIGHT CURRENT LINE THAT IS CURRENTLY BEING OUTPUTTED
     //HIGHLIGHT INCORRECT OUTPUTS
-    const current_received_output_a_div = document.getElementById('level_num_box_output_a');
-    let current_received_output_a_para = current_received_output_a_div.getElementsByTagName('p');
+
     for (i = 0; i < OUTPUT_STACK_A.length; i++) {
         current_received_output_a_para[i].innerText = OUTPUT_STACK_A[i];
 
@@ -219,8 +291,7 @@ function update_level_data_ui() {
         }
     }
 
-    const current_received_output_b_div = document.getElementById('level_num_box_output_b');
-    let current_received_output_b_para = current_received_output_b_div.getElementsByTagName('p');
+
     for (i = 0; i < OUTPUT_STACK_B.length; i++) {
         current_received_output_b_para[i].innerText = OUTPUT_STACK_B[i];
 
@@ -233,8 +304,7 @@ function update_level_data_ui() {
         }
     }
 
-    const current_received_output_c_div = document.getElementById('level_num_box_output_c');
-    let current_received_output_c_para = current_received_output_c_div.getElementsByTagName('p');
+
     for (i = 0; i < OUTPUT_STACK_C.length; i++) {
         current_received_output_c_para[i].innerText = OUTPUT_STACK_C[i];
 
@@ -267,15 +337,6 @@ function clear_instruction_colors(n = -1) {
     }
 }
 
-function clear_instruction_data() {
-    for (let i = 0; i < current_nodes.length; i++) {
-        for (let k = 0; k <= 14; k++) {
-            const ln = "NODE" + current_nodes[i].name + "_INSTRUCTION" + k + "_CODE_LINE";
-            document.getElementById(ln).innerText = "";
-        }
-    }
-    clear_instruction_colors();
-}
 
 function add_node_connections() {
 
@@ -332,15 +393,55 @@ function limit_instruction_input_fiels() {
 
 function initialize_level() {
 
+ 
     //initialize level data
-    INPUT_STACK_A = LEVEL_ONE_DATA_A
-    INPUT_STACK_B = LEVEL_ONE_DATA_B
-    INPUT_STACK_C = LEVEL_ONE_DATA_C
+    INPUT_STACK_A = Array.from(LEVEL_ONE_DATA_A);
+    INPUT_STACK_B = Array.from(LEVEL_ONE_DATA_B);
+    INPUT_STACK_C = Array.from(LEVEL_ONE_DATA_C);
 
-    EXPECTED_OUTPUT_A = LEVEL_ONE_EXPECTED_OUTPUT_A;
-    EXPECTED_OUTPUT_B = LEVEL_ONE_EXPECTED_OUTPUT_B;
-    EXPECTED_OUTPUT_C = LEVEL_ONE_EXPECTED_OUTPUT_C;
+    EXPECTED_OUTPUT_A = Array.from(LEVEL_ONE_EXPECTED_OUTPUT_A);
+    EXPECTED_OUTPUT_B = Array.from(LEVEL_ONE_EXPECTED_OUTPUT_B);
+    EXPECTED_OUTPUT_C = Array.from(LEVEL_ONE_EXPECTED_OUTPUT_C);
 
+    OUTPUT_STACK_A = [];
+    OUTPUT_STACK_B = [];
+    OUTPUT_STACK_C = [];
+
+    const blurb = document.getElementById('LEVEL_BLURB_TEXT');
+    blurb.innerText = LEVEL_ONE_BLURB;
+
+    //delete former data if there is any
+    //input
+    const current_output_a_div = document.getElementById('level_num_box_in_a');
+    const current_output_a_para = current_output_a_div.getElementsByTagName('p');
+    const current_output_b_div = document.getElementById('level_num_box_in_b');
+    const current_output_b_para = current_output_b_div.getElementsByTagName('p');
+    const current_output_c_div = document.getElementById('level_num_box_in_c');
+    const current_output_c_para = current_output_c_div.getElementsByTagName('p');
+    //output
+    const current_received_output_a_div = document.getElementById('level_num_box_output_a');
+    let current_received_output_a_para = current_received_output_a_div.getElementsByTagName('p');
+    const current_received_output_b_div = document.getElementById('level_num_box_output_b');
+    let current_received_output_b_para = current_received_output_b_div.getElementsByTagName('p');
+    const current_received_output_c_div = document.getElementById('level_num_box_output_c');
+    let current_received_output_c_para = current_received_output_c_div.getElementsByTagName('p');
+
+    const current_expected_output_a = document.getElementById('level_num_box_expected_a');
+    let current_expected_output_a_para = current_expected_output_a.getElementsByTagName('p');
+    const current_expected_output_b = document.getElementById('level_num_box_expected_b');
+    let current_expected_output_b_para = current_expected_output_b.getElementsByTagName('p');
+    const current_expected_output_c = document.getElementById('level_num_box_expected_c');
+    let current_expected_output_c_para = current_expected_output_c.getElementsByTagName('p');
+
+    Array.from(current_output_a_para).forEach(p => p.remove());
+    Array.from(current_output_b_para).forEach(p => p.remove());
+    Array.from(current_output_c_para).forEach(p => p.remove());
+    Array.from(current_received_output_a_para).forEach(p => p.remove());
+    Array.from(current_received_output_b_para).forEach(p => p.remove());
+    Array.from(current_received_output_c_para).forEach(p => p.remove());
+    Array.from(current_expected_output_a_para).forEach(p => p.remove());
+    Array.from(current_expected_output_b_para).forEach(p => p.remove());
+    Array.from(current_expected_output_c_para).forEach(p => p.remove());
 
     //DISPLAY DATA
     const numberBox = document.getElementById("level_num_box_in_a");
@@ -530,7 +631,6 @@ function process_level() {
         if (a == false) {
             //send a data to be recieved & pop it from the send list
             current_connection_port_data.push([11, 1, "DOWN", INPUT_STACK_A.pop()]);
-            console.log(current_connection_port_data);
         }
     }
     if (INPUT_STACK_B.length > 0) {
@@ -549,7 +649,6 @@ function process_level() {
         if (a == false) {
             //send a data to be recieved & pop it from the send list
             current_connection_port_data.push([22, 2, "DOWN", INPUT_STACK_B.pop()]);
-            console.log(current_connection_port_data);
         }
     }
     if (INPUT_STACK_C.length > 0) {
@@ -568,7 +667,6 @@ function process_level() {
         if (a == false) {
             //send a data to be recieved & pop it from the send list
             current_connection_port_data.push([33, 3, "DOWN", INPUT_STACK_C.pop()]);
-            console.log(current_connection_port_data);
         }
     }
     //OUTPUT
@@ -578,7 +676,6 @@ function process_level() {
             for (let i = 0; i < current_connection_port_data.length; i++) {
                 const [from, to, direction, ddata] = current_connection_port_data[i];
                 if (7 == from && 111 == to && "DOWN" == direction) {
-                    console.log(OUTPUT_STACK_A.length);
                     if (OUTPUT_STACK_A.length < EXPECTED_OUTPUT_A.length) {
                         OUTPUT_STACK_A.push(ddata);
                         // Remove the found entry
@@ -646,11 +743,16 @@ function find_instruction(node_name) {
         if (starting_line > 14) {
             starting_line = 0
         }
-
+        else if (starting_line < 0){
+            starting_line = 0;
+        }
         ln = "NODE" + in_node.name + "_INSTRUCTION" + starting_line + "_CODE_LINE";
         const line = document.getElementById(ln);
         const text = line.innerText.trim().toUpperCase();
         const words = text.split(/\s+/);
+
+
+
         for (let word of words) {
             //Check first char for breakpoint, comment ! #
             //Check first char for label : 
@@ -1245,4 +1347,18 @@ function btn_step() {
 
 function btn_stop() {
     reset_display();
+    initialize_level();
+}
+
+//button clear
+function clear_instruction_data() {
+    for (let i = 0; i < current_nodes.length; i++) {
+        for (let k = 0; k <= 14; k++) {
+            const ln = "NODE" + current_nodes[i].name + "_INSTRUCTION" + k + "_CODE_LINE";
+            document.getElementById(ln).innerText = "";
+        }
+    }
+    clear_instruction_colors();
+    reset_display();
+    initialize_level();
 }

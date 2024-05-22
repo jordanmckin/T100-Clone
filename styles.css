@@ -115,7 +115,7 @@
   font-weight: bold;
   font-family: monospace;
   color: rgb(200, 200, 200);
-  line-height: 5.5px;
+  line-height: .55vh;
   text-align: center;
 }
 .level_header {
@@ -128,71 +128,93 @@
   font-size: 1.8vh;
 }
 .selected_number_higholight{
-  background-color: lightgreen;
+  color: green;
+  font-weight: bolder;
+  text-decoration:underline;
 }
 .incorrect_number_highlight{
   background-color: brown;
+  text-decoration:line-through;
+}
+.LEVEL_BLURB{
+  position: absolute;
+  margin-left: .5vw;
+  margin-top: .5vh;
+  width: 28vw;
+  height: 8vh;
+  border: 1px solid rgb(140, 140, 140);
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
+}
+.LEVEL_BLURB_TEXT{
+  margin-top: .2vh;
+  margin-left: .2vw;
+  margin-right: .2vw;
+  margin-bottom: .2vh;
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+  line-height: 1.9vh;
 }
 #in_a {
   margin-left: 3vw;
-  margin-top: 8vh;
+  margin-top: 10vh;
 }
 #in_b {
   margin-left: 6vw;
-  margin-top: 8vh;
+  margin-top: 10vh;
 }
 #in_c {
   margin-left: 9vw;
-  margin-top: 8vh;
+  margin-top: 10vh;
 }
 #out_a {
   margin-left: 13vw;
-  margin-top: 8vh;
+  margin-top: 10vh;
 }
 #out_b {
   margin-left: 19vw;
 
-  margin-top: 8vh;
+  margin-top: 10vh;
 }
 #out_c {
   margin-left: 25vw;
-  margin-top: 8vh;
+  margin-top: 10vh;
 }
 #level_num_box_in_a {
   margin-left: 3vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #level_num_box_in_b {
   margin-left: 6vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #level_num_box_in_c {
   margin-left: 9vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #level_num_box_expected_a {
   margin-left: 12vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #level_num_box_expected_b {
   margin-left: 18vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #level_num_box_expected_c {
   margin-left: 24vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #level_num_box_output_a {
   margin-left: 15vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #level_num_box_output_b {
   margin-left: 21vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #level_num_box_output_c {
   margin-left: 27vw;
-  margin-top: 10vh;
+  margin-top: 12vh;
 }
 #NODE_TABLE {
   margin-left: 30vw;
