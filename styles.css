@@ -7,9 +7,13 @@
   font-family: monospace;
   color: rgb(200, 200, 200);
 }
+.SEGMENT_LOAD_BUTTONS{
+  position: absolute;
+  margin-top: 40vh;
+}
 .load_manual_btn{
   position: absolute;
-  margin-top: 45vh;
+  margin-top: 70vh;
   padding: 30px 200px;
   background-color: rgb(36, 35, 35);
   font-weight: bold;
@@ -21,7 +25,7 @@
   box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
 }
 .load_btn{
-  padding: 10px 150px;
+  padding: 10px 200px;
   background-color: rgb(36, 35, 35);
   font-weight: bold;
   font-family: monospace;
@@ -55,7 +59,7 @@
 }
 .SELECTED_SEGMENT_DATA{
   position: absolute;
-  margin-top: 12vh;
+
   margin-left: 3vw;
 }
 
@@ -91,7 +95,18 @@
   border-color: rgb(140, 140, 140);
   box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
 }
-
+.SEGMENT_BUTTON_SOLVED{
+  padding: 30px 45px;
+  position: absolute;
+  background-color: lightgreen;
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+  font-size: 1.5vh;
+  text-align: center;
+  border-color: rgb(140, 140, 140);
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
+}
 /* SEGMENT */
 .NODE {
   width: 20vw;

@@ -12,24 +12,14 @@
         <h1 class="SEGMENT_HEADER" id="SEGMENT_NAME">DIAGNOSTIC DATA FOR SEGMENT 00000</h1>
         <div class="SEGMENT_LOAD_BUTTONS">
             <br>
-            <button class="load_btn" onclick="">SLOT-1 <br>NOT YET SOLVED</button>
-            <button class="delete_btn" id="">DELETE DATA</button>
-            <br>
-            <br>
-            <button class="load_btn" id="">SLOT-2 <br>NOT YET SOLVED</button>
-            <button class="delete_btn" id="">DELETE DATA</button>
-            <br>
-            <br>
-            <button class="load_btn" onclick="">SLOT-3 <br>NOT YET SOLVED</button>
-            <button class="delete_btn" id="">DELETE DATA</button>
-            <br>
-            <br>
-            <button class="save_directory_btn" id="">OPEN SAVE DIRECTORY</button>
+            <button class="load_btn" onclick="load_selected_level()">SLOT-1</button>
+            <button class="delete_btn" id="" onclick="delete_selected_level_data()">DELETE DATA</button>
         </div>
         <div class="SELECTED_SEGMENT_DATA">
-            <h1 class="SEGMENT_HEADER">SEGMENT DATA TITLE 00000</h1>
+            <h1 class="SEGMENT_HEADER" id="SEGMENT_TITLE">SEGMENT DATA TITLE 00000</h1>
             <h1 class="SEGMENT_HEADER" id="LEVEL_BLURB">LEVEL BLURB</h1>
-            <h1 class="SEGMENT_HEADER">LAST ATTEMPT SOLVED IN #NULL#? ON #NULL#?</h1>
+            <h1 class="SEGMENT_HEADER" id="LAST_SOLVED_DATE">LAST ATTEMPT SOLVED ON NULL?#?#</h1>
+            <h1 class="SEGMENT_HEADER" id="LAST_SOLVED_ITERATIONS">SOLVED ITERATIONS ?@?@?@</h1>
             
             <br>
             
@@ -43,7 +33,7 @@
                 <td>
                     <div class="SEGMENT">
                         <p class="SEGMENT_TITLE">SEGMENT 00000</p>
-                        <button class="SEGMENT_BUTTON" id="00000" onclick="selected_button(this)"> SELF-TEST <BR>
+                        <button class="SEGMENT_BUTTON" id="ONE" onclick="selected_button(this)"> SELF-TEST <BR>
                             DIAGNOSTIC</button>
                     </div>
                 </td>

@@ -40,7 +40,8 @@ let graph_connections = null;
 const current_nodes = [];
 let current_connection_port_data = []; //[from, to, direction, data]
 
-
+const LEVEL_ONE_TITLE = "00000"
+const LEVEL_ONE_NAME = "Diagnostic STEP A";
 const LEVEL_ONE_BLURB = "> Read a value from IN.A \n > Read a value from IN.C \n > Output IN.A to OUT.C \n > Output IN.C to OUT.A";
 const LEVEL_ONE_NODES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const LEVEL_ONE_DATA_A = [111, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 999]; //36 length
@@ -94,7 +95,15 @@ let INPUT_STACK_C = [];
 let EXPECTED_OUTPUT_A = [];
 let EXPECTED_OUTPUT_B = [];
 let EXPECTED_OUTPUT_C = [];
+let LEVEL_TITLE = "";
+let LEVEL_NAME = "";
 
+//load the level data for the UI
+let UI_LEVEL_TITLE;
+let UI_LEVEL_NAME;
+let UI_LEVEL_BLURB;
+let UI_SOLVED_BLURB;
+let UI_SELECTED;
 
 
 //list containing data waiting at valid connection
@@ -163,6 +172,20 @@ class TNODE {
     }
 }
 
+
+function start_up() {
+
+    initalize_nodes();
+    reset_display();
+    add_node_connections();
+    create_node_connection_arrows();
+    limit_instruction_input_fiels();
+    initialize_level();
+    load_level_data();
+}
+
+
+
 function reset_display() {
     for (let i = 0; i < current_nodes.length; i++) {
         current_nodes[i].ACC = 0;
@@ -189,6 +212,7 @@ function reset_level_data() {
     INPUT_STACK_A = [];
     INPUT_STACK_B = [];
     INPUT_STACK_C = [];
+
 
 
     const current_output_a_div = document.getElementById('level_num_box_in_a');
@@ -404,24 +428,37 @@ function limit_instruction_input_fiels() {
     });
 }
 
+
 function initialize_level() {
 
+    //grab the level form the URL
+    let urlParams = new URLSearchParams(window.location.search);
+    let level_id = urlParams.get('levelid');
+    if (level_id == "" || level_id == null){
+        level_id = "ONE";
+    }
+    let t;
+    t = "LEVEL_" + level_id + "_";
 
     //initialize level data
-    INPUT_STACK_A = Array.from(LEVEL_ONE_DATA_A);
-    INPUT_STACK_B = Array.from(LEVEL_ONE_DATA_B);
-    INPUT_STACK_C = Array.from(LEVEL_ONE_DATA_C);
+    INPUT_STACK_A = Array.from(eval(t + "DATA_A"));
+    INPUT_STACK_B = Array.from(eval(t + "DATA_B"));
+    INPUT_STACK_C = Array.from(eval(t + "DATA_C"));
 
-    EXPECTED_OUTPUT_A = Array.from(LEVEL_ONE_EXPECTED_OUTPUT_A);
-    EXPECTED_OUTPUT_B = Array.from(LEVEL_ONE_EXPECTED_OUTPUT_B);
-    EXPECTED_OUTPUT_C = Array.from(LEVEL_ONE_EXPECTED_OUTPUT_C);
+    EXPECTED_OUTPUT_A = Array.from(eval(t + "EXPECTED_OUTPUT_A"));
+    EXPECTED_OUTPUT_B = Array.from(eval(t + "EXPECTED_OUTPUT_B"));
+    EXPECTED_OUTPUT_C = Array.from(eval(t + "EXPECTED_OUTPUT_C"));
+
+    LEVEL_TITLE = eval(t + "TITLE");
+    UI_LEVEL_TITLE = LEVEL_TITLE;
+    LEVEL_NAME = eval(t + "NAME");
 
     OUTPUT_STACK_A = [];
     OUTPUT_STACK_B = [];
     OUTPUT_STACK_C = [];
 
     const blurb = document.getElementById('LEVEL_BLURB_TEXT');
-    blurb.innerText = LEVEL_ONE_BLURB;
+    blurb.innerText = eval(t + "BLURB")
 
     //delete former data if there is any
     //input
@@ -614,21 +651,11 @@ function initialize_level() {
         numberElement.textContent = " . ";
         numberBoxoutputc.appendChild(numberElement);
     }
-    
+
 
 }
 
 
-
-function start_up() {
-    initalize_nodes();
-    reset_display();
-    add_node_connections();
-    create_node_connection_arrows();
-    limit_instruction_input_fiels();
-    initialize_level();
-
-}
 
 
 
@@ -696,23 +723,31 @@ function process_level_conditions() {
             //console.log("EQUAL")
             a = true;
         }
-    }else{a = true;}
+    } else {
+        a = true;
+    }
     if (EXPECTED_OUTPUT_B.length > 0) {
         if (arrays_Equal(OUTPUT_STACK_B, EXPECTED_OUTPUT_B)) {
             //console.log("EQUAL")
             b = true;
         }
-    }else{b = true;}
+    } else {
+        b = true;
+    }
     if (EXPECTED_OUTPUT_C.length > 0) {
         if (arrays_Equal(OUTPUT_STACK_C, EXPECTED_OUTPUT_C)) {
             //console.log("EQUAL")
             c = true;
         }
-    }else{c = true;}
+    } else {
+        c = true;
+    }
 
 
-    if(a == true && b == true && c == true){
-        console.log("WINNER");
+    if (a == true && b == true && c == true) {
+        save_level_completion_data();
+        save_level_data();
+        document.getElementById("win_modal").style.display = "block";
     }
 }
 
@@ -1516,34 +1551,137 @@ function clear_instruction_data() {
 }
 
 
-function open_manual_modal_btn(){
+function open_manual_modal_btn() {
     window.open('https://www.zachtronics.com/images/TIS-100P%20Reference%20Manual.pdf');
 }
 
 //UI FUNCTIONS
 
-window.addEventListener('keydown', function (e) {
-    if(e.key == "Escape"){
-        if(MODAL_OPEN == true){document.getElementById("options_modal").style.display = "none"; MODAL_OPEN = false;}
-        else{document.getElementById("options_modal").style.display = "block"; MODAL_OPEN = true;}
-        
-    }
-  }, false);
 
-  function selected_button(button){
+function close_win_modal(){
+    document.getElementById("win_modal").style.display = "none";
+    btn_stop();
+}
+
+window.addEventListener('keydown', function (e) {
+    if (e.key == "Escape") {
+        if (MODAL_OPEN == true) {
+            document.getElementById("options_modal").style.display = "none";
+            MODAL_OPEN = false;
+        } else {
+            document.getElementById("options_modal").style.display = "block";
+            MODAL_OPEN = true;
+        }
+
+    }
+}, false);
+
+
+function index_load(){
+    selected_button(undefined, "ONE");
+}
+
+function selected_button(button, id = "ONE") {
     //load up the level data based off the button name
     b = button;
-    console.log(b.id);
+    let t;
+    if(b != undefined){
+     t = "LEVEL_" + b.id + "_";
+     UI_SELECTED = b.id;
     }
-
-
-
-
-function laod_level_data_for_index(level){
-    //update the headings and such
-}
-function index_load(){
-    //load level 1 data into the slots, update all the headings and such
+    else{ t = "LEVEL_" + id + "_"; UI_SELECTED = id;}
+    UI_LEVEL_BLURB = eval(t + "BLURB");
+    UI_LEVEL_TITLE = eval(t + "TITLE");
+    UI_LEVEL_NAME = eval(t + "NAME");
     
-    //make a function that can direct the button presses to load the data make a function for hte above
+
+    document.getElementById('SEGMENT_TITLE').innerText = UI_LEVEL_TITLE + " " + UI_LEVEL_NAME;
+    document.getElementById('LEVEL_BLURB').innerText = UI_LEVEL_BLURB;
+
+
+    //check to see if this node has been completed before and load the iterations
+    let iter = localStorage.getItem("Iterations" + UI_LEVEL_TITLE);
+    let date_comp = localStorage.getItem(UI_LEVEL_TITLE + "DATE");
+
+    if(iter){document.getElementById('LAST_SOLVED_ITERATIONS').innerText = "SOLVED ITERATIONS " + iter;}
+    else{document.getElementById('LAST_SOLVED_ITERATIONS').innerText = "SOLVED ITERATIONS ?@?@?@"}
+    if(date_comp){document.getElementById('LAST_SOLVED_DATE').innerText = "LAST ATTEMPT SOLVED ON " + date_comp;}
+    else{document.getElementById('LAST_SOLVED_DATE').innerText = "LAST ATTEMPT SOLVED ON NULL?#?#"}
 }
+
+function load_selected_level(){
+    let levelid = UI_SELECTED;
+    let url = "segment.html?levelid=" + levelid;
+    window.location.href = url;
+}
+
+
+function retrieve_instructions_from_node() {
+    let d = [];
+    let data = [];
+    let t;
+    for (let i = 0; i < current_nodes.length; i++) {
+        data = [];
+        for (let k = 0; k <= 14; k++) {
+            t = "";
+            const ln = "NODE" + current_nodes[i].name + "_INSTRUCTION" + k + "_CODE_LINE";
+            t = document.getElementById(ln).innerText;
+            data.push(t);
+        }
+        d.push(data);
+    }
+    return d;
+}
+
+
+function save_level_completion_data(){
+    save_level_data();
+    localStorage.setItem("Iterations" + LEVEL_TITLE, iterations);
+    localStorage.setItem(LEVEL_TITLE + "DATE", new Date());
+}
+
+function save_level_data() {
+    //check for existing data, if so delete it
+    localStorage.removeItem(LEVEL_TITLE);
+    //GATHER LEVEL DATA
+    const jsonData = JSON.stringify(retrieve_instructions_from_node());
+    localStorage.setItem(LEVEL_TITLE, jsonData);
+}
+
+function btn_load(){
+    load_level_data();
+}
+
+function delete_selected_level_data(){
+    
+    localStorage.removeItem(UI_LEVEL_TITLE);
+    localStorage.removeItem("Iterations" + UI_LEVEL_TITLE);
+    localStorage.removeItem(UI_LEVEL_TITLE + "DATE");
+    index_load(UI_LEVEL_TITLE);
+}
+
+function load_level_data(){
+
+    const jsonData = localStorage.getItem(LEVEL_TITLE);
+    
+    if(jsonData){
+        //data found
+        let parsed_data = JSON.parse(jsonData);
+        clear_instruction_data();
+
+        for (let i = 0; i < current_nodes.length; i++) {
+            for (let k = 0; k <= 14; k++) {
+                const ln = "NODE" + current_nodes[i].name + "_INSTRUCTION" + k + "_CODE_LINE";
+                document.getElementById(ln).innerText = parsed_data[i][k];
+            }
+        }
+
+    }
+    else{return;}
+}
+
+function btn_save() {
+    save_level_data();
+}
+
+

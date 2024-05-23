@@ -18,6 +18,8 @@
             <button class="modal-btn" onclick="open_manual_modal_btn()">VIEW THE MANUAL</button>
             <button class="modal-btn" id="CLEAR_BUTTON" onclick="clear_instruction_data()">CLEAR ALL INSTRUCTIONS</button>
             <button class="modal-btn" onclick="window.location.href='index.html'">PROGRAM SELECT</button>
+            <button class="modal-btn" id="SAVE_BUTTON" onclick="btn_save()">SAVE</button>
+            <button class="modal-btn" id="LOAD_BUTTON" onclick="btn_load()">LOAD</button>
         </div>
     </div>
     <!-- Modal reached when level finsihed -->
@@ -25,7 +27,7 @@
         <!-- Modal content -->
         <div class="modal-content">
             <h2>-- Test Passed --</h2>
-            <button class="modal-btn">CONTINUE EDITING</button>
+            <button class="modal-btn" onclick="close_win_modal()">CONTINUE EDITING</button>
             <button class="modal-btn" onclick="window.location.href='index.html'">PROGRAM SELECT</button>
         </div>
     </div>
@@ -38,6 +40,7 @@
     <button class="UI_BUTTON" id="STOP_BUTTON" onclick="btn_stop()">STOP</button>
     <button class="UI_BUTTON" id="RUN_BUTTON" onclick="btn_run()">RUN</button>
     <button class="UI_BUTTON" id="FAST_BUTTON" onclick="btn_fast()">FAST</button>
+ 
     <p class="level_header" id="in_a">IN.A</p>
     <p class="level_header" id="in_b">IN.B</p>
     <p class="level_header" id="in_c">IN.C</p>
