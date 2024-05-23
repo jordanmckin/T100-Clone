@@ -1,3 +1,98 @@
+
+
+/*INDEX HTML */
+.SEGMENT_DATA_DIV{
+  position: absolute;
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+}
+.load_manual_btn{
+  position: absolute;
+  margin-top: 45vh;
+  padding: 30px 200px;
+  background-color: rgb(36, 35, 35);
+  font-weight: bold;
+  font-family: monospace;
+  color: grey;
+  font-size: 2.5vh;
+  text-align: center;
+  border-color: rgb(140, 140, 140);
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
+}
+.load_btn{
+  padding: 10px 150px;
+  background-color: rgb(36, 35, 35);
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+  font-size: 1.5vh;
+  text-align: center;
+  border-color: rgb(140, 140, 140);
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
+}
+.delete_btn{
+  padding: 10px 25px;
+  background-color: rgb(36, 35, 35);
+  font-weight: bold;
+  font-family: monospace;
+  color: brown;
+  font-size: 1.5vh;
+  text-align: center;
+  border-color: rgb(140, 140, 140);
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
+}
+.save_directory_btn{
+  padding: 15px 130px;
+  background-color: rgb(36, 35, 35);
+  font-weight: bold;
+  font-family: monospace;
+  color: grey;
+  font-size: 1.5vh;
+  text-align: center;
+  border-color: rgb(140, 140, 140);
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
+}
+.SELECTED_SEGMENT_DATA{
+  position: absolute;
+  margin-top: 12vh;
+  margin-left: 3vw;
+}
+
+.SEGMENT_TABLE_LIST{
+  position: absolute;
+  margin-left: 35vw;
+  
+}
+.SEGMENT_HEADER{
+  text-decoration: underline;
+}
+.SEGMENT_TITLE{
+  text-align: center;
+  font-weight: bold;
+  font-family: monospace;
+  font-size:medium;
+  color: rgb(200, 200, 200);
+  margin: 0 1.5vw 0 1.5vw;
+  font-size: 1.5vh;
+}
+.SEGMENT{
+ margin: 6.5vh 1.5vw 8vh 1.5vw;
+}
+.SEGMENT_BUTTON{
+  padding: 30px 45px;
+  position: absolute;
+  background-color: rgb(36, 35, 35);
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+  font-size: 1.5vh;
+  text-align: center;
+  border-color: rgb(140, 140, 140);
+  box-shadow: rgb(140, 140, 140) 1px 1px 1px 1px;
+}
+
+/* SEGMENT */
 .NODE {
   width: 20vw;
   height: 27vh;
@@ -87,6 +182,40 @@
   border-right: 10px solid transparent;
   border-top: 20px solid black; /* Adjust thickness and color as needed */
 }
+.w3-animate-top{position:relative;animation:animatetop 0.4s}@keyframes animatetop{from{top:-300px;opacity:0} to{top:0;opacity:1}}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: rgb(36, 35, 35);
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 300px;
+  font-size: 0.8vw;
+  color: rgb(200, 200, 200);
+  box-shadow: rgb(75, 70, 70) 2px 2px 2px 2px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-weight: bold;
+  font-family: monospace;
+ 
+}
 .INSTRUCTION_HOLDER {
   display: flex;
   flex-direction: column;
@@ -106,6 +235,9 @@
   border: 1px solid rgb(140, 140, 140);
   text-transform: uppercase;
   font-family: monospace;
+  caret-color: rgb(200, 200, 200);
+  caret-shape:block;
+
 }
 .level_num_box {
   position: absolute;
@@ -156,15 +288,25 @@
 }
 .button_running{
   background-color: lightgreen;
-  color: black;
+  color: rgb(36, 35, 35);
   text-decoration: underline;
 }
 .button_fast{
   background-color: brown;
-  color: black;
+  color: rgb(36, 35, 35);
   text-decoration: underline;
 }
-
+.modal-btn{
+  padding: 30px 30px;
+  background-color: rgb(36, 35, 35);
+  font-weight: bold;
+  font-family: monospace;
+  color: rgb(200, 200, 200);
+  font-size: 1.5vh;
+  margin: 5px 5px;
+  box-shadow: rgb(75, 70, 70) 1px 1px 1px 1px;
+  
+}
 
 .LEVEL_BLURB{
   position: absolute;
@@ -264,12 +406,10 @@
 }
 #CLEAR_BUTTON {
   background-color: rgb(152, 50, 50);
-  position: absolute;
-  margin-top: 90vh;
-  margin-left: 30vw;
 }
 #FAST_BUTTON{
   margin-top: 85vh;
   margin-left: 21.5vw;
 }
+
 

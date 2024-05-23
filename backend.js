@@ -24,6 +24,9 @@ const VALID_INTERNAL_DIR = new Set([
     "ACC"
 ]);
 
+//UI DATA
+let MODAL_OPEN = false;
+
 
 let RUNNING = false;
 let FAST = false;
@@ -46,17 +49,6 @@ const LEVEL_ONE_DATA_C = [111, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9
 const LEVEL_ONE_EXPECTED_OUTPUT_A = [111, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 999];
 const LEVEL_ONE_EXPECTED_OUTPUT_B = [];
 const LEVEL_ONE_EXPECTED_OUTPUT_C = [111, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 999];
-
-//load level data into these placeholders in initialize level
-let OUTPUT_STACK_A = [];
-let OUTPUT_STACK_B = [];
-let OUTPUT_STACK_C = [];
-let INPUT_STACK_A = [];
-let INPUT_STACK_B = [];
-let INPUT_STACK_C = [];
-let EXPECTED_OUTPUT_A = [];
-let EXPECTED_OUTPUT_B = [];
-let EXPECTED_OUTPUT_C = [];
 
 const LEVEL_ONE_CONNECTIONS = [
     [1, 2, 'RIGHT'],
@@ -91,6 +83,19 @@ const LEVEL_ONE_CONNECTIONS = [
     [11, 1, 'DOWN'], //input
     [33, 3, 'DOWN'] //input
 ];
+
+//load level data into these placeholders in initialize level
+let OUTPUT_STACK_A = [];
+let OUTPUT_STACK_B = [];
+let OUTPUT_STACK_C = [];
+let INPUT_STACK_A = [];
+let INPUT_STACK_B = [];
+let INPUT_STACK_C = [];
+let EXPECTED_OUTPUT_A = [];
+let EXPECTED_OUTPUT_B = [];
+let EXPECTED_OUTPUT_C = [];
+
+
 
 //list containing data waiting at valid connection
 //cannot add connection if data is waiting
@@ -613,6 +618,8 @@ function initialize_level() {
 
 }
 
+
+
 function start_up() {
     initalize_nodes();
     reset_display();
@@ -620,6 +627,7 @@ function start_up() {
     create_node_connection_arrows();
     limit_instruction_input_fiels();
     initialize_level();
+
 }
 
 
@@ -1505,4 +1513,37 @@ function clear_instruction_data() {
     clear_instruction_colors();
     reset_display();
     initialize_level();
+}
+
+
+function open_manual_modal_btn(){
+    window.open('https://www.zachtronics.com/images/TIS-100P%20Reference%20Manual.pdf');
+}
+
+//UI FUNCTIONS
+
+window.addEventListener('keydown', function (e) {
+    if(e.key == "Escape"){
+        if(MODAL_OPEN == true){document.getElementById("options_modal").style.display = "none"; MODAL_OPEN = false;}
+        else{document.getElementById("options_modal").style.display = "block"; MODAL_OPEN = true;}
+        
+    }
+  }, false);
+
+  function selected_button(button){
+    //load up the level data based off the button name
+    b = button;
+    console.log(b.id);
+    }
+
+
+
+
+function laod_level_data_for_index(level){
+    //update the headings and such
+}
+function index_load(){
+    //load level 1 data into the slots, update all the headings and such
+    
+    //make a function that can direct the button presses to load the data make a function for hte above
 }
